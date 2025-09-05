@@ -1,0 +1,28 @@
+{
+  "name": "car-dealer-website",
+  "version": "1.0.0",
+  "description": "A modern car dealer website with login and signup functionality.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "keywords": [
+    "car",
+    "dealer",
+    "website",
+    "login",
+    "signup"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3"
+  },
+  "devDependencies": {},
+  "homepage": "http://yourwebsite.com"
+}

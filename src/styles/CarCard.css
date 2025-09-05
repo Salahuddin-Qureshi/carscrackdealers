@@ -1,0 +1,263 @@
+/* Car Card Styles */
+.car-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.car-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Section */
+.car-image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.car-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.car-card:hover .car-image {
+  transform: scale(1.05);
+}
+
+/* Image Navigation */
+.image-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.car-image-container:hover .image-nav {
+  opacity: 1;
+}
+
+.image-nav.prev {
+  left: 8px;
+}
+
+.image-nav.next {
+  right: 8px;
+}
+
+.image-nav:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Image Indicators */
+.image-indicators {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+}
+
+.indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.indicator.active {
+  background: #ffffff;
+}
+
+/* Car Tag */
+.car-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tag-featured {
+  background: #d01818;
+  color: white;
+}
+
+.tag-trade {
+  background: #28a745;
+  color: white;
+}
+
+.tag-normal {
+  background: #6c757d;
+  color: white;
+}
+
+/* Favorite Button */
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #666;
+}
+
+.favorite-btn:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.favorite-btn.favorited {
+  color: #d01818;
+}
+
+.favorite-btn.favorited:hover {
+  background: #fee;
+}
+
+/* Car Details */
+.car-details {
+  padding: 16px;
+}
+
+/* Car Title */
+.car-title h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  line-height: 1.2;
+}
+
+.car-variant {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Car Price */
+.car-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d01818;
+  margin-bottom: 12px;
+}
+
+/* Car Specifications */
+.car-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #666;
+}
+
+.spec-icon {
+  color: #d01818;
+  font-size: 12px;
+}
+
+.mileage {
+  font-weight: 500;
+}
+
+/* Car Location */
+.car-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #666;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.location-icon {
+  color: #d01818;
+  font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .car-card {
+    max-width: 100%;
+  }
+  
+  .car-image-container {
+    height: 180px;
+  }
+  
+  .car-details {
+    padding: 12px;
+  }
+  
+  .car-title h3 {
+    font-size: 16px;
+  }
+  
+  .car-price {
+    font-size: 18px;
+  }
+  
+  .car-specs {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+/* Animation for favorite button */
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.favorite-btn.favorited {
+  animation: heartBeat 0.3s ease;
+}
