@@ -43,7 +43,7 @@ const Dashboard = () => {
   const stats = [
     { title: 'Total Inventory', value: '156', change: '+12%', color: '#d01818', icon: <FaCar /> },
     { title: 'Sold This Month', value: '23', change: '+5%', color: '#28a745', icon: <FaCheckCircle /> },
-    { title: 'Total Revenue', value: '$2.45M', change: '+18%', color: '#17a2b8', icon: <FaDollarSign /> },
+    { title: 'Total Revenue', value: 'PKR 2.45M', change: '+18%', color: '#17a2b8', icon: <FaChartLine /> },
     { title: 'Active Customers', value: '89', change: '+8%', color: '#ffc107', icon: <FaUsers /> },
     { title: 'Profit Margin', value: '24.5%', change: '+3%', color: '#6f42c1', icon: <FaChartLine /> },
     { title: 'Unsold Cars', value: '12', change: '-15%', color: '#fd7e14', icon: <FaClock /> }
@@ -123,9 +123,9 @@ const Dashboard = () => {
   ];
 
   const recentCars = [
-    { id: 1, name: 'BMW X5 2023', price: '$65,000', status: 'Available' },
-    { id: 2, name: 'Mercedes C-Class', price: '$48,500', status: 'Sold' },
-    { id: 3, name: 'Audi A4 2024', price: '$52,000', status: 'Available' }
+    { id: 1, name: 'BMW X5 2023', price: 'PKR 65,000', status: 'Available' },
+    { id: 2, name: 'Mercedes C-Class', price: 'PKR 48,500', status: 'Sold' },
+    { id: 3, name: 'Audi A4 2024', price: 'PKR 52,000', status: 'Available' }
   ];
 
   const myCars = [
@@ -345,22 +345,22 @@ const Dashboard = () => {
                     <div className="performance-item">
                       <span className="performance-label">Today</span>
                       <span className="performance-value">{businessStats.totalSales.today} cars</span>
-                      <span className="performance-amount">${businessStats.revenue.today.toLocaleString()}</span>
+                      <span className="performance-amount">PKR {businessStats.revenue.today.toLocaleString()}</span>
                     </div>
                     <div className="performance-item">
                       <span className="performance-label">This Week</span>
                       <span className="performance-value">{businessStats.totalSales.thisWeek} cars</span>
-                      <span className="performance-amount">${businessStats.revenue.thisWeek.toLocaleString()}</span>
+                      <span className="performance-amount">PKR {businessStats.revenue.thisWeek.toLocaleString()}</span>
                     </div>
                     <div className="performance-item">
                       <span className="performance-label">This Month</span>
                       <span className="performance-value">{businessStats.totalSales.thisMonth} cars</span>
-                      <span className="performance-amount">${businessStats.revenue.thisMonth.toLocaleString()}</span>
+                      <span className="performance-amount">PKR {businessStats.revenue.thisMonth.toLocaleString()}</span>
                     </div>
                     <div className="performance-item">
                       <span className="performance-label">This Year</span>
                       <span className="performance-value">{businessStats.totalSales.thisYear} cars</span>
-                      <span className="performance-amount">${businessStats.revenue.thisYear.toLocaleString()}</span>
+                      <span className="performance-amount">PKR {businessStats.revenue.thisYear.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
@@ -376,7 +376,7 @@ const Dashboard = () => {
                           <div className="model-name">{model.name}</div>
                           <div className="model-stats">
                             <span className="model-sold">{model.sold} sold</span>
-                            <span className="model-revenue">${model.revenue.toLocaleString()}</span>
+                            <span className="model-revenue">PKR {model.revenue.toLocaleString()}</span>
                           </div>
                         </div>
                       </div>
@@ -402,7 +402,7 @@ const Dashboard = () => {
                     </div>
                     <div className="customer-item">
                       <span className="customer-label">Avg Purchase Value</span>
-                      <span className="customer-value">${businessStats.customerStats.averagePurchaseValue.toLocaleString()}</span>
+                      <span className="customer-value">PKR {businessStats.customerStats.averagePurchaseValue.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
