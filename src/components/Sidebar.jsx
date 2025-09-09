@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { 
   FaUser, 
   FaUsers, 
@@ -17,13 +18,30 @@ import {
   FaHeart,
   FaExchangeAlt,
   FaFileAlt,
-  FaShoppingBag
+  FaShoppingBag,
+  FaUserCog,
+  FaCrown
 } from 'react-icons/fa';
 import '../styles/Sidebar.css';
 
-const Sidebar = ({ isCollapsed, toggleSidebar, onLogout }) => {
+const Sidebar = ({ isCollapsed, toggleSidebar }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [showUserDropdown, setShowUserDropdown] = useState(false);
+
+  // Logout function
+  const handleLogout = () => {
+    // Clear all authentication cookies
+    Cookies.remove('isLoggedIn');
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
+    
+    // Show logout message
+    console.log('User logged out successfully');
+    
+    // Redirect to login page
+    navigate('/login');
+  };
   
   const menuItems = [
     { 
@@ -75,6 +93,11 @@ const Sidebar = ({ isCollapsed, toggleSidebar, onLogout }) => {
       path: '/buy-cars', 
       icon: <FaShoppingBag size={18} />, 
       label: 'Buy Cars' 
+    },
+    { 
+      path: '/subscription', 
+      icon: <FaCrown size={18} />, 
+      label: 'Subscription' 
     },
   ];
 
@@ -139,11 +162,15 @@ const Sidebar = ({ isCollapsed, toggleSidebar, onLogout }) => {
           {/* User Dropdown */}
           {showUserDropdown && (
             <div className="user-dropdown" onMouseEnter={() => setShowUserDropdown(true)} onMouseLeave={() => setShowUserDropdown(false)}>
-              <button className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+              <Link to="/profile-settings" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
                 <FaUser size={14} />
                 <span>Profile Settings</span>
-              </button>
-              <button className="dropdown-item logout-item" onClick={onLogout}>
+              </Link>
+              <Link to="/user-management" className="dropdown-item" onClick={() => setShowUserDropdown(false)}>
+                <FaUserCog size={14} />
+                <span>User Management</span>
+              </Link>
+              <button className="dropdown-item logout-item" onClick={handleLogout}>
                 <FaSignOutAlt size={14} />
                 <span>Logout</span>
               </button>
@@ -155,7 +182,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, onLogout }) => {
         {/* Collapsed Logout Button - Only show when collapsed */}
         {isCollapsed && (
           <button
-            onClick={onLogout}
+            onClick={handleLogout}
             className="collapsed-logout-btn"
             title="Logout"
           >

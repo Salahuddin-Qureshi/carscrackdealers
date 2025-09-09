@@ -5,6 +5,11 @@ import Signup from './components/Signup';
 import ForgotPassword from './components/ForgotPassword';
 import OTPScreen from './components/OTPScreen';
 import Dashboard from './components/Dashboard';
+import UserManagement from './components/UserManagement';
+import ProfileSettings from './components/ProfileSettings';
+import Subscription from './components/Subscription';
+import Inventory from './components/Inventory';
+import Layout from './components/Layout';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -47,6 +52,34 @@ function App() {
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/user-management" element={
+          <ProtectedRoute>
+            <Layout title="User Management">
+              <UserManagement />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/profile-settings" element={
+          <ProtectedRoute>
+            <Layout title="Profile Settings">
+              <ProfileSettings />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/subscription" element={
+          <ProtectedRoute>
+            <Layout title="Subscription">
+              <Subscription />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/inventory" element={
+          <ProtectedRoute>
+            <Layout title="My Inventory">
+              <Inventory />
+            </Layout>
           </ProtectedRoute>
         } />
 

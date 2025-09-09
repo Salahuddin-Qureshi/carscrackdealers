@@ -1,0 +1,586 @@
+/* Inventory Car Card Styles */
+.inventory-car-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.inventory-car-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Section */
+.inventory-car-image-section {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+}
+
+.inventory-car-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.inventory-car-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.inventory-car-card:hover .inventory-car-image {
+  transform: scale(1.05);
+}
+
+/* Image Navigation */
+.inventory-image-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.inventory-car-card:hover .inventory-image-nav {
+  opacity: 1;
+}
+
+.inventory-image-prev {
+  left: 12px;
+}
+
+.inventory-image-next {
+  right: 12px;
+}
+
+.inventory-image-nav:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Image Indicators */
+.inventory-image-indicators {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.inventory-car-card:hover .inventory-image-indicators {
+  opacity: 1;
+}
+
+.inventory-image-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.inventory-image-dot.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+.inventory-image-dot:hover {
+  background: white;
+}
+
+/* Status Badge */
+.inventory-status-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+}
+
+.inventory-status-icon {
+  font-size: 12px;
+}
+
+.inventory-status-text {
+  font-size: 11px;
+}
+
+/* Featured Badge */
+.inventory-featured-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #333;
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  z-index: 2;
+}
+
+/* Tag Badge */
+.inventory-tag-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+}
+
+/* Quick Actions Overlay */
+.inventory-quick-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 3;
+}
+
+.inventory-car-card:hover .inventory-quick-actions {
+  opacity: 1;
+}
+
+.inventory-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.inventory-view-btn {
+  background: rgba(40, 167, 69, 0.9);
+  color: white;
+}
+
+.inventory-edit-btn {
+  background: rgba(23, 162, 184, 0.9);
+  color: white;
+}
+
+.inventory-delete-btn {
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+}
+
+.inventory-action-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Content Section */
+.inventory-car-content {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.inventory-car-header {
+  margin-bottom: 12px;
+}
+
+.inventory-car-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.inventory-car-variant {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Price */
+.inventory-car-price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.inventory-price-icon {
+  color: #d01818;
+  font-size: 16px;
+}
+
+.inventory-price-amount {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d01818;
+}
+
+/* Key Details */
+.inventory-car-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.inventory-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inventory-detail-icon {
+  color: #666;
+  font-size: 14px;
+  width: 16px;
+  text-align: center;
+}
+
+.inventory-detail-text {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Location */
+.inventory-car-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.inventory-location-icon {
+  color: #666;
+  font-size: 14px;
+}
+
+.inventory-location-text {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Date Added */
+.inventory-car-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.inventory-date-icon {
+  color: #666;
+  font-size: 14px;
+}
+
+.inventory-date-text {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Customer Info */
+.inventory-customer-info {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-left: 3px solid #d01818;
+}
+
+.inventory-customer-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.inventory-customer-icon {
+  color: #d01818;
+  font-size: 14px;
+}
+
+.inventory-customer-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inventory-customer-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inventory-customer-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.inventory-customer-contact {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inventory-contact-icon {
+  color: #666;
+  font-size: 12px;
+}
+
+.inventory-customer-contact span {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Performance Metrics */
+.inventory-performance-metrics {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.inventory-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.inventory-metric-label {
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.inventory-metric-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* Action Buttons */
+.inventory-car-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.inventory-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  justify-content: center;
+}
+
+.inventory-btn-primary {
+  background: #d01818;
+  color: white;
+}
+
+.inventory-btn-primary:hover {
+  background: #b31414;
+  transform: translateY(-1px);
+}
+
+.inventory-btn-secondary {
+  background: #f8f9fa;
+  color: #666;
+  border: 1px solid #dee2e6;
+}
+
+.inventory-btn-secondary:hover {
+  background: #e9ecef;
+  color: #333;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .inventory-car-card {
+    margin-bottom: 20px;
+  }
+
+  .inventory-car-image-section {
+    height: 200px;
+  }
+
+  .inventory-car-content {
+    padding: 16px;
+  }
+
+  .inventory-car-title {
+    font-size: 16px;
+  }
+
+  .inventory-price-amount {
+    font-size: 18px;
+  }
+
+  .inventory-performance-metrics {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .inventory-metric {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .inventory-car-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .inventory-car-image-section {
+    height: 180px;
+  }
+
+  .inventory-car-content {
+    padding: 12px;
+  }
+
+  .inventory-car-title {
+    font-size: 15px;
+  }
+
+  .inventory-price-amount {
+    font-size: 16px;
+  }
+
+  .inventory-quick-actions {
+    top: 8px;
+    right: 8px;
+  }
+
+  .inventory-action-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+  }
+}
+
+/* Animation for form transitions */
+.inventory-car-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inventory-action-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inventory-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus states for accessibility */
+.inventory-action-btn:focus,
+.inventory-btn:focus {
+  outline: 2px solid #d01818;
+  outline-offset: 2px;
+}
+
+/* Loading state */
+.inventory-car-card.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.inventory-car-card.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  border: 3px solid transparent;
+  border-top: 3px solid #d01818;
+  border-radius: 50%;
+  animation: inventory-spin 1s linear infinite;
+}
+
+@keyframes inventory-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

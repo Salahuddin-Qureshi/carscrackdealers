@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import { 
   FaCar, 
   FaCheckCircle, 
@@ -20,25 +18,11 @@ import companyLogo from '../assets/images/company-logo-black.png';
 import Sidebar from './Sidebar';
 import CarCard from './CarCard';
 import SimpleChart from './SimpleChart';
+import NotificationBell from './NotificationBell';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const navigate = useNavigate();
-
-  // Logout function
-  const handleLogout = () => {
-    // Clear all authentication cookies
-    Cookies.remove('isLoggedIn');
-    Cookies.remove('accessToken');
-    Cookies.remove('refreshToken');
-    
-    // Show logout message
-    console.log('User logged out successfully');
-    
-    // Redirect to login page
-    navigate('/login');
-  };
 
   const stats = [
     { title: 'Total Inventory', value: '156', change: '+12%', color: '#d01818', icon: <FaCar /> },
@@ -238,7 +222,6 @@ const Dashboard = () => {
       <Sidebar 
         isCollapsed={sidebarCollapsed} 
         toggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
-        onLogout={handleLogout}
       />
       
       <div className={`dashboard-content ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
@@ -249,11 +232,7 @@ const Dashboard = () => {
           <h1 className="header-title">Cars Crack Dealer</h1>
         </div>
         <div className="header-right">
-          <div className="user-info">
-            <span className="user-name">John Dealer</span>
-            <span className="user-role">Premium Dealer</span>
-          </div>
-          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+          <NotificationBell />
         </div>
       </header>
 

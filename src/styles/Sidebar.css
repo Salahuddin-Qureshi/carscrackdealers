@@ -267,6 +267,7 @@
   font-weight: 500;
   cursor: pointer;
   text-align: left;
+  text-decoration: none;
 }
 
 .dropdown-item:hover {
