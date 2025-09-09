@@ -398,7 +398,7 @@ const Inventory = () => {
         </div>
 
         {/* Advanced Filters */}
-        {showFilters && (
+        {/* {showFilters && (
           <div className="inventory-advanced-filters">
             <div className="inventory-filter-group">
               <label>Status:</label>
@@ -423,7 +423,7 @@ const Inventory = () => {
               <input type="range" className="inventory-year-range" />
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Cars Grid/List */}
         <div className={`inventory-cars-container ${viewMode}`}>

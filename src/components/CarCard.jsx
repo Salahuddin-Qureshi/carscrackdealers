@@ -22,12 +22,10 @@ const CarCard = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return `PKR ${new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
-    }).format(price);
+    }).format(price)}`;
   };
 
   const formatMileage = (mileage) => {

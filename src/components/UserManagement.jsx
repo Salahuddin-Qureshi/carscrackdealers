@@ -303,21 +303,21 @@ const UserManagement = () => {
                 <td>
                   <div className="action-buttons">
                     <button 
-                      className="action-btn view-btn"
+                      className="user-action-btn view-btn"
                       onClick={() => handleEditUser(user)}
                       title="View Details"
                     >
                       <FaEye />
                     </button>
                     <button 
-                      className="action-btn edit-btn"
+                      className="user-action-btn edit-btn"
                       onClick={() => handleEditUser(user)}
                       title="Edit User"
                     >
                       <FaEdit />
                     </button>
                     <button 
-                      className="action-btn delete-btn"
+                      className="user-action-btn delete-btn"
                       onClick={() => handleDeleteUser(user.id)}
                       title="Delete User"
                     >

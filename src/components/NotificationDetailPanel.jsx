@@ -197,7 +197,7 @@ const NotificationDetailPanel = ({ notification, onClose, onAction }) => {
           {notificationDetails.actions.map((action, index) => (
             <button
               key={index}
-              className={`action-btn ${action.type}`}
+              className={`notification-action-btn ${action.type}`}
               onClick={() => handleAction(action)}
             >
               {action.icon}

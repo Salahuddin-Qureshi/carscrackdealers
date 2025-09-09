@@ -212,7 +212,7 @@
   flex-shrink: 0;
 }
 
-.action-btn {
+.notification-action-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -227,37 +227,37 @@
   text-align: center;
 }
 
-.action-btn.primary {
+.notification-action-btn.primary {
   background: #d01818;
   color: white;
 }
 
-.action-btn.primary:hover {
+.notification-action-btn.primary:hover {
   background: #b31414;
   transform: translateY(-1px);
 }
 
-.action-btn.secondary {
+.notification-action-btn.secondary {
   background: #6c757d;
   color: white;
 }
 
-.action-btn.secondary:hover {
+.notification-action-btn.secondary:hover {
   background: #5a6268;
   transform: translateY(-1px);
 }
 
-.action-btn.success {
+.notification-action-btn.success {
   background: #28a745;
   color: white;
 }
 
-.action-btn.success:hover {
+.notification-action-btn.success:hover {
   background: #218838;
   transform: translateY(-1px);
 }
 
-.action-btn:active {
+.notification-action-btn:active {
   transform: translateY(0);
 }
 

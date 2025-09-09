@@ -303,7 +303,7 @@
   gap: 8px;
 }
 
-.action-btn {
+.user-action-btn {
   width: 32px;
   height: 32px;
   border: none;
@@ -316,30 +316,30 @@
   font-size: 12px;
 }
 
-.view-btn {
+.user-action-btn.view-btn {
   background: #17a2b8;
   color: white;
 }
 
-.view-btn:hover {
+.user-action-btn.view-btn:hover {
   background: #138496;
 }
 
-.edit-btn {
+.user-action-btn.edit-btn {
   background: #ffc107;
   color: white;
 }
 
-.edit-btn:hover {
+.user-action-btn.edit-btn:hover {
   background: #e0a800;
 }
 
-.delete-btn {
+.user-action-btn.delete-btn {
   background: #dc3545;
   color: white;
 }
 
-.delete-btn:hover {
+.user-action-btn.delete-btn:hover {
   background: #c82333;
 }
 

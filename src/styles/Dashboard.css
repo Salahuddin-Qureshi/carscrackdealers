@@ -252,7 +252,7 @@
   gap: 16px;
 }
 
-.action-btn {
+.dashboard-action-btn {
   padding: 16px 24px;
   border: none;
   border-radius: 12px;
@@ -264,24 +264,24 @@
   letter-spacing: 0.5px;
 }
 
-.action-btn.primary {
+.dashboard-action-btn.primary {
   background: #d01818;
   color: #ffffff;
 }
 
-.action-btn.primary:hover {
+.dashboard-action-btn.primary:hover {
   background: #b31414;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(208, 24, 24, 0.3);
 }
 
-.action-btn.secondary {
+.dashboard-action-btn.secondary {
   background: #f8f9fa;
   color: #666666;
   border: 2px solid #e1e5e9;
 }
 
-.action-btn.secondary:hover {
+.dashboard-action-btn.secondary:hover {
   background: #e9ecef;
   color: #000000;
   transform: translateY(-2px);
