@@ -389,26 +389,26 @@ const Dashboard = () => {
                 {/* Inventory Status */}
                 <div className="analytics-card">
                   <h3 className="analytics-title">Inventory Status</h3>
-                  <div className="inventory-stats">
-                    <div className="inventory-item available">
-                      <FaWarehouse className="inventory-icon" />
-                      <span className="inventory-label">Available</span>
-                      <span className="inventory-value">{businessStats.inventoryStatus.available}</span>
+                  <div className="dashboard-inventory-grid">
+                    <div className="dashboard-inventory-card available">
+                      <FaWarehouse className="dashboard-inventory-icon" />
+                      <span className="dashboard-inventory-label">Available</span>
+                      <span className="dashboard-inventory-value">{businessStats.inventoryStatus.available}</span>
                     </div>
-                    <div className="inventory-item sold">
-                      <FaShoppingCart className="inventory-icon" />
-                      <span className="inventory-label">Sold</span>
-                      <span className="inventory-value">{businessStats.inventoryStatus.sold}</span>
+                    <div className="dashboard-inventory-card sold">
+                      <FaShoppingCart className="dashboard-inventory-icon" />
+                      <span className="dashboard-inventory-label">Sold</span>
+                      <span className="dashboard-inventory-value">{businessStats.inventoryStatus.sold}</span>
                     </div>
-                    <div className="inventory-item in-transit">
-                      <FaTruck className="inventory-icon" />
-                      <span className="inventory-label">In Transit</span>
-                      <span className="inventory-value">{businessStats.inventoryStatus.inTransit}</span>
+                    <div className="dashboard-inventory-card in-transit">
+                      <FaTruck className="dashboard-inventory-icon" />
+                      <span className="dashboard-inventory-label">In Transit</span>
+                      <span className="dashboard-inventory-value">{businessStats.inventoryStatus.inTransit}</span>
                     </div>
-                    <div className="inventory-item maintenance">
-                      <FaTools className="inventory-icon" />
-                      <span className="inventory-label">Under Maintenance</span>
-                      <span className="inventory-value">{businessStats.inventoryStatus.underMaintenance}</span>
+                    <div className="dashboard-inventory-card maintenance">
+                      <FaTools className="dashboard-inventory-icon" />
+                      <span className="dashboard-inventory-label">Under Maintenance</span>
+                      <span className="dashboard-inventory-value">{businessStats.inventoryStatus.underMaintenance}</span>
                     </div>
                   </div>
                 </div>

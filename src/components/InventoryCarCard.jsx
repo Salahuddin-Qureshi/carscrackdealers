@@ -26,12 +26,12 @@ const InventoryCarCard = ({ car, onEdit, onDelete, onView, onStatusChange }) => 
     
     if (pkrPrice >= 10000000) { // 1 crore or more
       const crores = pkrPrice / 10000000;
-      return `PKR ${crores.toFixed(1)} Cr`;
+      return `${crores.toFixed(1)} Cr`;
     } else if (pkrPrice >= 100000) { // 1 lakh or more
       const lacs = pkrPrice / 100000;
-      return `PKR ${lacs.toFixed(1)} Lac`;
+      return `${lacs.toFixed(1)} Lac`;
     } else {
-      return `PKR ${new Intl.NumberFormat('en-US').format(pkrPrice)}`;
+      return `${new Intl.NumberFormat('en-US').format(pkrPrice)}`;
     }
   };
 
@@ -82,7 +82,6 @@ const InventoryCarCard = ({ car, onEdit, onDelete, onView, onStatusChange }) => 
 
         {/* Price */}
         <div className="inventory-car-price">
-          <span className="inventory-price-icon">₨</span>
           <span className="inventory-price-amount">{formatPrice(car.price)}</span>
         </div>
 

@@ -459,12 +459,12 @@ const Inventory = () => {
                   
                   if (pkrValue >= 10000000) { // 1 crore or more
                     const crores = pkrValue / 10000000;
-                    return `₨${crores.toFixed(1)} Cr`;
+                    return `${crores.toFixed(1)} Cr`;
                   } else if (pkrValue >= 100000) { // 1 lakh or more
                     const lacs = pkrValue / 100000;
-                    return `₨${lacs.toFixed(1)} Lac`;
+                    return `${lacs.toFixed(1)} Lac`;
                   } else {
-                    return `₨${new Intl.NumberFormat('en-US').format(pkrValue)}`;
+                    return `${new Intl.NumberFormat('en-US').format(pkrValue)}`;
                   }
                 })()}
               </div>

@@ -601,6 +601,68 @@
   color: #000;
 }
 
+/* Dashboard Inventory Grid - New Class Names */
+.dashboard-inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.dashboard-inventory-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-inventory-card:hover {
+  transform: translateY(-2px);
+}
+
+.dashboard-inventory-icon {
+  font-size: 28px;
+  color: #666;
+}
+
+.dashboard-inventory-card.available {
+  background: #d4edda;
+  border-left: 4px solid #28a745;
+}
+
+.dashboard-inventory-card.sold {
+  background: #f8d7da;
+  border-left: 4px solid #dc3545;
+}
+
+.dashboard-inventory-card.in-transit {
+  background: #d1ecf1;
+  border-left: 4px solid #17a2b8;
+}
+
+.dashboard-inventory-card.maintenance {
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+}
+
+.dashboard-inventory-label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-inventory-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+}
+
 /* Cars Grid */
 .cars-grid {
   display: grid;
@@ -667,6 +729,11 @@
   
   .inventory-stats {
     grid-template-columns: 1fr;
+  }
+  
+  .dashboard-inventory-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
   
   .stat-card {

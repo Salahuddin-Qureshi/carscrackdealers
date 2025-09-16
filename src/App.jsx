@@ -9,6 +9,8 @@ import UserManagement from './components/UserManagement';
 import ProfileSettings from './components/ProfileSettings';
 import Subscription from './components/Subscription';
 import Inventory from './components/Inventory';
+import PartsStore from './components/PartsStore';
+import AddPart from './components/AddPart';
 import Favorites from './components/Favorites';
 import CarDetails from './components/CarDetails';
 import Layout from './components/Layout';
@@ -81,6 +83,20 @@ function App() {
           <ProtectedRoute>
             <Layout title="My Inventory">
               <Inventory />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/parts-store" element={
+          <ProtectedRoute>
+            <Layout title="Parts Store">
+              <PartsStore />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/parts/add" element={
+          <ProtectedRoute>
+            <Layout title="Add New Part">
+              <AddPart />
             </Layout>
           </ProtectedRoute>
         } />

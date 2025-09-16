@@ -168,8 +168,8 @@
 .inventory-stat-icon {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, #d01818, #ff6b6b);
-  color: white;
+  background: #f1f5f9;
+  color: #666;
   border-radius: 12px;
   display: flex;
   align-items: center;

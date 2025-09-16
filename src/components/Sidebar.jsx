@@ -20,7 +20,8 @@ import {
   FaFileAlt,
   FaShoppingBag,
   FaUserCog,
-  FaCrown
+  FaCrown,
+  FaCogs
 } from 'react-icons/fa';
 import '../styles/Sidebar.css';
 
@@ -63,6 +64,11 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
       path: '/inventory', 
       icon: <FaCheckCircle size={18} />, 
       label: 'My Inventory' 
+    },
+    { 
+      path: '/parts-store', 
+      icon: <FaCogs size={18} />, 
+      label: 'Parts Store' 
     },
     { 
       path: '/favorites', 
@@ -179,16 +185,6 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
         </div>
         )}
 
-        {/* Collapsed Logout Button - Only show when collapsed */}
-        {isCollapsed && (
-          <button
-            onClick={handleLogout}
-            className="collapsed-logout-btn"
-            title="Logout"
-          >
-            <FaSignOutAlt size={16} />
-          </button>
-        )}
       </div>
     </div>
   );

@@ -200,14 +200,14 @@ const Subscription = () => {
                   
                   <div className="subscription-plan-features">
                     <h4>Included Features:</h4>
-                    <ul className="subscription-features-list">
+                    <div className="subscription-features-grid">
                       {currentSubscription.features.map((feature, index) => (
-                        <li key={index} className="subscription-feature-item">
+                        <div key={index} className="subscription-feature-item">
                           <FaCheck className="subscription-feature-check" />
                           {feature}
-                        </li>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
 
                   <div className="subscription-plan-actions">
