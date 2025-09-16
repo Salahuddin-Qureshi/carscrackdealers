@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import { 
-  FaEye, 
-  FaEdit, 
-  FaTrash, 
-  FaHeart, 
+  FaEye,
+  FaEdit,
   FaShare, 
   FaCalendarAlt, 
   FaMapMarkerAlt, 
   FaCog, 
-  FaCheckCircle, 
-  FaTimesCircle,
-  FaClock,
-  FaStar,
-  FaTag,
   FaDollarSign,
   FaCar,
   FaGasPump,
@@ -25,46 +18,21 @@ import {
 import '../styles/InventoryCarCard.css';
 
 const InventoryCarCard = ({ car, onEdit, onDelete, onView, onStatusChange }) => {
-  const [showActions, setShowActions] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'available':
-        return <FaCheckCircle className="inventory-status-icon available" />;
-      case 'sold':
-        return <FaTimesCircle className="inventory-status-icon sold" />;
-      case 'reserved':
-        return <FaClock className="inventory-status-icon reserved" />;
-      case 'pending':
-        return <FaClock className="inventory-status-icon pending" />;
-      default:
-        return <FaClock className="inventory-status-icon default" />;
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'available':
-        return '#28a745';
-      case 'sold':
-        return '#dc3545';
-      case 'reserved':
-        return '#ffc107';
-      case 'pending':
-        return '#17a2b8';
-      default:
-        return '#6c757d';
-    }
-  };
-
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(price);
+    // Convert USD to PKR (assuming 1 USD = 280 PKR)
+    const pkrPrice = price * 280;
+    
+    if (pkrPrice >= 10000000) { // 1 crore or more
+      const crores = pkrPrice / 10000000;
+      return `PKR ${crores.toFixed(1)} Cr`;
+    } else if (pkrPrice >= 100000) { // 1 lakh or more
+      const lacs = pkrPrice / 100000;
+      return `PKR ${lacs.toFixed(1)} Lac`;
+    } else {
+      return `PKR ${new Intl.NumberFormat('en-US').format(pkrPrice)}`;
+    }
   };
 
   const formatMileage = (mileage) => {
@@ -83,11 +51,12 @@ const InventoryCarCard = ({ car, onEdit, onDelete, onView, onStatusChange }) => 
     );
   };
 
+
   return (
     <div 
       className="inventory-car-card inventory-car-card-compact"
-      onMouseEnter={() => setShowActions(true)}
-      onMouseLeave={() => setShowActions(false)}
+      onClick={() => onView(car)}
+      style={{ cursor: 'pointer' }}
     >
       {/* Image Section */}
       <div className="inventory-car-image-section">
@@ -98,57 +67,7 @@ const InventoryCarCard = ({ car, onEdit, onDelete, onView, onStatusChange }) => 
             className="inventory-car-image"
           />
           
-          {/* Status Badge */}
-          <div 
-            className="inventory-status-badge"
-            style={{ backgroundColor: getStatusColor(car.status) }}
-          >
-            {getStatusIcon(car.status)}
-            <span className="inventory-status-text">{car.status}</span>
-          </div>
-
-          {/* Featured Badge */}
-          {car.featured && (
-            <div className="inventory-featured-badge">
-              <FaStar />
-            </div>
-          )}
-
-          {/* Tag Badge */}
-          {car.tag && (
-            <div className="inventory-tag-badge">
-              <FaTag />
-              <span>{car.tag}</span>
-            </div>
-          )}
         </div>
-
-        {/* Quick Actions Overlay */}
-        {showActions && (
-          <div className="inventory-quick-actions">
-            <button 
-              className="inventory-action-btn inventory-view-btn"
-              onClick={() => onView(car)}
-              title="View Details"
-            >
-              <FaEye />
-            </button>
-            <button 
-              className="inventory-action-btn inventory-edit-btn"
-              onClick={() => onEdit(car)}
-              title="Edit Car"
-            >
-              <FaEdit />
-            </button>
-            <button 
-              className="inventory-action-btn inventory-delete-btn"
-              onClick={() => onDelete(car)}
-              title="Delete Car"
-            >
-              <FaTrash />
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Content Section */}
@@ -163,12 +82,12 @@ const InventoryCarCard = ({ car, onEdit, onDelete, onView, onStatusChange }) => 
 
         {/* Price */}
         <div className="inventory-car-price">
-          <FaDollarSign className="inventory-price-icon" />
+          <span className="inventory-price-icon">₨</span>
           <span className="inventory-price-amount">{formatPrice(car.price)}</span>
         </div>
 
-        {/* Key Details Row */}
-        <div className="inventory-car-details-row">
+        {/* Key Details Grid - 2x2 Layout */}
+        <div className="inventory-car-details-grid">
           <div className="inventory-detail-item">
             <FaTachometerAlt className="inventory-detail-icon" />
             <span className="inventory-detail-text">{formatMileage(car.mileage)} miles</span>
@@ -181,14 +100,14 @@ const InventoryCarCard = ({ car, onEdit, onDelete, onView, onStatusChange }) => 
             <FaCogs className="inventory-detail-icon" />
             <span className="inventory-detail-text">{car.transmission}</span>
           </div>
+          <div className="inventory-detail-item">
+            <FaMapMarkerAlt className="inventory-detail-icon" />
+            <span className="inventory-detail-text">{car.location}</span>
+          </div>
         </div>
 
-        {/* Location and Date Row */}
-        <div className="inventory-car-meta-row">
-          <div className="inventory-car-location">
-            <FaMapMarkerAlt className="inventory-location-icon" />
-            <span className="inventory-location-text">{car.location}</span>
-          </div>
+        {/* Date Row */}
+        <div className="inventory-car-date-row">
           <div className="inventory-car-date">
             <FaCalendarAlt className="inventory-date-icon" />
             <span className="inventory-date-text">Added: {car.dateAdded}</span>
@@ -236,17 +155,23 @@ const InventoryCarCard = ({ car, onEdit, onDelete, onView, onStatusChange }) => 
         <div className="inventory-car-actions">
           <button 
             className="inventory-btn inventory-btn-primary"
-            onClick={() => onView(car)}
-          >
-            <FaEye />
-            View
-          </button>
-          <button 
-            className="inventory-btn inventory-btn-secondary"
-            onClick={() => onEdit(car)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(car);
+            }}
           >
             <FaEdit />
             Edit
+          </button>
+          <button 
+            className="inventory-btn inventory-btn-danger"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(car);
+            }}
+          >
+            <FaEdit />
+            Delete
           </button>
         </div>
       </div>

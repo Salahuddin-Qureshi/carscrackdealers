@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { 
   FaPlus, 
   FaSearch, 
@@ -20,6 +23,7 @@ import InventoryCarCard from './InventoryCarCard';
 import '../styles/Inventory.css';
 
 const Inventory = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('active');
   const [viewMode, setViewMode] = useState('grid'); // grid or list
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,6 +31,123 @@ const Inventory = () => {
   const [sortOrder, setSortOrder] = useState('desc');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
+  const [totalCars, setTotalCars] = useState(0);
+  const [soldCars, setSoldCars] = useState(0);
+  const [activeCars, setActiveCars] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [userStatus, setUserStatus] = useState({ certified: false, authorized: false });
+
+  // Get base URL from environment variables
+  const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL_CERTIFIED;
+
+  // Function to decode JWT token and extract formatted_id
+  const decodeJWT = (token) => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    } catch (error) {
+      console.error('Error decoding JWT:', error);
+      return null;
+    }
+  };
+
+  // Fetch total cars count from API
+  const fetchTotalCars = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      
+      const accessToken = Cookies.get('accessToken');
+      
+      if (!accessToken) {
+        throw new Error('Access token not found');
+      }
+      
+      // Decode JWT token to get formatted_id and user status
+      const decodedToken = decodeJWT(accessToken);
+      if (!decodedToken) {
+        throw new Error('Failed to decode access token');
+      }
+      
+      const formattedId = decodedToken.formatted_id;
+      const isCertified = decodedToken.certified || false;
+      const isAuthorized = decodedToken.authorized || false;
+      
+      if (!formattedId) {
+        throw new Error('Formatted ID not found in token');
+      }
+      
+      // Set user status for response handling
+      setUserStatus({ certified: isCertified, authorized: isAuthorized });
+      
+      if (!baseUrl) {
+        throw new Error('Base URL is not configured');
+      }
+
+      console.log('API Request Details:', {
+        method: 'POST',
+        url: `${baseUrl}/certified/cars/total/`,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: {
+          formatted_id: formattedId
+        }
+      });
+
+      const response = await axios.post(
+        `${baseUrl}/certified/cars/total/`,
+        {
+          formatted_id: formattedId
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        console.log('API Response:', response.data);
+        console.log('User Status:', { certified: isCertified, authorized: isAuthorized });
+        
+        // Handle different response structures based on user status
+        if (isCertified && isAuthorized) {
+          // Both certified and authorized - use certified data
+          setTotalCars(response.data.certified_total_inventory || 0);
+          setSoldCars(response.data.certified_sold_cars || 0);
+          setActiveCars(response.data.certified_active_cars || 0);
+        } else if (isAuthorized) {
+          // Only authorized - use authorized data
+          setTotalCars(response.data.authorized_total_inventory || 0);
+          setSoldCars(response.data.authorized_sold_cars || 0);
+          setActiveCars(response.data.authorized_active_cars || 0);
+        } else {
+          // Fallback to certified data if available
+          setTotalCars(response.data.certified_total_inventory || 0);
+          setSoldCars(response.data.certified_sold_cars || 0);
+          setActiveCars(response.data.certified_active_cars || 0);
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching total cars:', err);
+      setError(err.message || 'Failed to fetch total cars');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch total cars on component mount
+  useEffect(() => {
+    fetchTotalCars();
+  }, []);
 
   // Sample inventory data
   const [cars, setCars] = useState([
@@ -235,15 +356,15 @@ const Inventory = () => {
 
   // Get statistics
   const getStats = () => {
-    const activeCars = cars.filter(car => ['available', 'reserved', 'pending'].includes(car.status));
-    const soldCars = cars.filter(car => car.status === 'sold');
-    const totalValue = activeCars.reduce((sum, car) => sum + car.price, 0);
+    const localActiveCars = cars.filter(car => ['available', 'reserved', 'pending'].includes(car.status));
+    const localSoldCars = cars.filter(car => car.status === 'sold');
+    const totalValue = localActiveCars.reduce((sum, car) => sum + car.price, 0);
     const totalViews = cars.reduce((sum, car) => sum + (car.views || 0), 0);
     
     return {
-      total: cars.length,
-      active: activeCars.length,
-      sold: soldCars.length,
+      total: loading ? '...' : totalCars, // Use API data for total cars
+      active: loading ? '...' : activeCars, // Use API data for active cars
+      sold: loading ? '...' : soldCars, // Use API data for sold cars
       totalValue,
       totalViews
     };
@@ -263,8 +384,7 @@ const Inventory = () => {
   };
 
   const handleView = (car) => {
-    console.log('View car:', car);
-    // Handle view functionality
+    navigate(`/car/${car.id}`);
   };
 
   const handleStatusChange = (car, newStatus) => {
@@ -282,6 +402,16 @@ const Inventory = () => {
     <div className="inventory-page">
       <div className="inventory-container">
 
+        {/* Error Message */}
+        {error && (
+          <div className="inventory-error-message">
+            <p>Error: {error}</p>
+            <button onClick={fetchTotalCars} className="inventory-retry-btn">
+              Retry
+            </button>
+          </div>
+        )}
+
         {/* Statistics Cards */}
         <div className="inventory-stats">
           <div className="inventory-stat-card">
@@ -289,7 +419,13 @@ const Inventory = () => {
               <FaCar />
             </div>
             <div className="inventory-stat-content">
-              <div className="inventory-stat-value">{stats.total}</div>
+              <div className="inventory-stat-value">
+                {loading ? (
+                  <span className="inventory-loading">Loading...</span>
+                ) : (
+                  stats.total
+                )}
+              </div>
               <div className="inventory-stat-label">Total Cars</div>
             </div>
           </div>
@@ -316,7 +452,22 @@ const Inventory = () => {
               <FaStar />
             </div>
             <div className="inventory-stat-content">
-              <div className="inventory-stat-value">${(stats.totalValue / 1000).toFixed(0)}K</div>
+              <div className="inventory-stat-value">
+                {(() => {
+                  // Convert USD to PKR (assuming 1 USD = 280 PKR)
+                  const pkrValue = stats.totalValue * 280;
+                  
+                  if (pkrValue >= 10000000) { // 1 crore or more
+                    const crores = pkrValue / 10000000;
+                    return `₨${crores.toFixed(1)} Cr`;
+                  } else if (pkrValue >= 100000) { // 1 lakh or more
+                    const lacs = pkrValue / 100000;
+                    return `₨${lacs.toFixed(1)} Lac`;
+                  } else {
+                    return `₨${new Intl.NumberFormat('en-US').format(pkrValue)}`;
+                  }
+                })()}
+              </div>
               <div className="inventory-stat-label">Total Value</div>
             </div>
           </div>

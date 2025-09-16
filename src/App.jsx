@@ -9,6 +9,8 @@ import UserManagement from './components/UserManagement';
 import ProfileSettings from './components/ProfileSettings';
 import Subscription from './components/Subscription';
 import Inventory from './components/Inventory';
+import Favorites from './components/Favorites';
+import CarDetails from './components/CarDetails';
 import Layout from './components/Layout';
 
 // Protected Route Component
@@ -80,6 +82,18 @@ function App() {
             <Layout title="My Inventory">
               <Inventory />
             </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/favorites" element={
+          <ProtectedRoute>
+            <Layout title="My Favorites">
+              <Favorites />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/car/:id" element={
+          <ProtectedRoute>
+            <CarDetails />
           </ProtectedRoute>
         } />
 

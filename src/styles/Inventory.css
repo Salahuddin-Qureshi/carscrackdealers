@@ -101,6 +101,46 @@
   transform: translateY(-1px);
 }
 
+/* Error Message */
+.inventory-error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #f5c6cb;
+}
+
+.inventory-error-message p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.inventory-retry-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.inventory-retry-btn:hover {
+  background: #c82333;
+}
+
+.inventory-loading {
+  color: #666;
+  font-style: italic;
+  font-size: 14px;
+}
+
 /* Statistics Cards */
 .inventory-stats {
   display: grid;
@@ -398,8 +438,8 @@
 
 .inventory-cars-container.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .inventory-cars-container.list {
@@ -537,6 +577,7 @@
 
   .inventory-cars-container.grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .inventory-stats {
