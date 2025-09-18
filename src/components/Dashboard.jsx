@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   FaCar, 
   FaCheckCircle, 
@@ -23,6 +24,7 @@ import NotificationBell from './NotificationBell';
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const navigate = useNavigate();
 
   const stats = [
     { title: 'Total Inventory', value: '156', change: '+12%', color: '#d01818', icon: <FaCar /> },
@@ -437,7 +439,12 @@ const Dashboard = () => {
             <div className="quick-actions">
               <h3 className="section-title">Quick Actions</h3>
               <div className="actions-grid">
-                <button className="dashboard-action-btn primary">Add New Car</button>
+                <button 
+                  className="dashboard-action-btn primary"
+                  onClick={() => navigate('/car/add')}
+                >
+                  Add New Car
+                </button>
                 <button className="dashboard-action-btn secondary">View Reports</button>
                 <button className="dashboard-action-btn secondary">Manage Profile</button>
                 <button className="dashboard-action-btn secondary">Support</button>
@@ -450,7 +457,12 @@ const Dashboard = () => {
           <div className="cars-content">
             <div className="content-header">
               <h2>My Cars</h2>
-              <button className="add-car-btn">+ Add New Car</button>
+              <button 
+                className="add-car-btn"
+                onClick={() => navigate('/car/add')}
+              >
+                + Add New Car
+              </button>
             </div>
             
             {/* Car Cards Grid */}

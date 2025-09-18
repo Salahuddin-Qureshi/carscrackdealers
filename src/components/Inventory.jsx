@@ -594,7 +594,10 @@ const Inventory = () => {
               <FaCar className="inventory-empty-icon" />
               <h3>No cars found</h3>
               <p>Try adjusting your search criteria or add a new car to your inventory.</p>
-              <button className="inventory-action-btn inventory-add-btn">
+              <button 
+                className="inventory-action-btn inventory-add-btn"
+                onClick={() => navigate('/car/add')}
+              >
                 <FaPlus />
                 Add New Car
               </button>

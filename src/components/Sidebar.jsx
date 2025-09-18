@@ -56,7 +56,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
       label: 'Dashboard' 
     },
     { 
-      path: '/sell-car', 
+      path: '/car/add', 
       icon: <FaCar size={18} />, 
       label: 'Sell Your Car' 
     },
@@ -76,7 +76,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
       label: 'My Favorites' 
     },
     { 
-      path: '/trade-cars', 
+      path: '/trade-applications', 
       icon: <FaExchangeAlt size={18} />, 
       label: 'Trade Cars' 
     },

@@ -1,0 +1,491 @@
+/* Trade Applications Styles */
+.trade-applications-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+
+/* Filter Tabs */
+.trade-filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: white;
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.trade-filter-tab {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trade-filter-tab:hover {
+  background: #f1f5f9;
+  color: #374151;
+}
+
+.trade-filter-tab.active {
+  background: #d01818;
+  color: white;
+}
+
+/* Applications List */
+.trade-applications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.trade-application-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.trade-application-card:hover {
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Application Header */
+.trade-application-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.trade-application-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.trade-application-info h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+}
+
+.trade-application-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.trade-application-date svg {
+  font-size: 12px;
+}
+
+.trade-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Application Content */
+.trade-application-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+/* Dealer Car Section */
+.trade-dealer-car {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.trade-dealer-car-image {
+  margin-bottom: 12px;
+}
+
+.trade-dealer-car-image img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+  background: #f8fafc;
+  padding: 8px;
+}
+
+.trade-dealer-car-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+}
+
+.trade-dealer-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #d01818;
+  margin: 0;
+}
+
+/* User Section */
+.trade-user-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.trade-user-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.trade-user-details {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.trade-user-details h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+}
+
+.trade-user-details h4 svg {
+  color: #d01818;
+  font-size: 14px;
+}
+
+.trade-contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trade-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.trade-contact-item svg {
+  color: #9ca3af;
+  font-size: 12px;
+  width: 14px;
+}
+
+.trade-user-car {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.trade-user-car h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+}
+
+.trade-user-car h4 svg {
+  color: #d01818;
+  font-size: 14px;
+}
+
+.trade-user-car-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trade-car-spec {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.trade-car-meta {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.trade-car-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #d01818;
+  margin: 4px 0 0 0;
+}
+
+.trade-car-trade-info {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.trade-trade-type,
+.trade-extra-amount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.trade-trade-type:last-child,
+.trade-extra-amount:last-child {
+  margin-bottom: 0;
+}
+
+.trade-trade-label {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.trade-trade-value {
+  font-size: 13px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+
+/* Description */
+.trade-description {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.trade-description p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+
+/* Actions */
+.trade-application-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.trade-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trade-approve-btn {
+  background: #10b981;
+  color: white;
+}
+
+.trade-approve-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.trade-reject-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.trade-reject-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* Empty State */
+.trade-empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.trade-empty-icon {
+  font-size: 64px;
+  color: #d1d5db;
+  margin-bottom: 24px;
+}
+
+.trade-empty-state h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 8px 0;
+}
+
+.trade-empty-state p {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Loading State */
+.trade-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.trade-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid #d01818;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .trade-application-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .trade-user-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .trade-applications-container {
+    padding: 16px;
+  }
+  
+  
+  .trade-filter-tabs {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .trade-filter-tab {
+    flex: 1;
+    min-width: 120px;
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+  
+  .trade-application-card {
+    padding: 20px 16px;
+  }
+  
+  .trade-application-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .trade-application-header-right {
+    align-items: flex-start;
+    width: 100%;
+  }
+  
+  .trade-dealer-car,
+  .trade-user-details,
+  .trade-user-car,
+  .trade-description {
+    padding: 12px;
+  }
+  
+  .trade-application-actions {
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .trade-action-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .trade-applications-container {
+    padding: 12px;
+  }
+  
+  .trade-applications-header {
+    padding: 20px 12px;
+  }
+  
+  .trade-application-card {
+    padding: 16px 12px;
+  }
+  
+  .trade-detail-section {
+    padding: 12px;
+  }
+  
+  .trade-car-info {
+    padding: 12px;
+  }
+}

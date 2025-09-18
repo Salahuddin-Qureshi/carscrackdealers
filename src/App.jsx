@@ -11,6 +11,9 @@ import Subscription from './components/Subscription';
 import Inventory from './components/Inventory';
 import PartsStore from './components/PartsStore';
 import AddPart from './components/AddPart';
+import AddCar from './components/AddCar';
+import TradeApplication from './components/TradeApplication';
+import TradeApplications from './components/TradeApplications';
 import Favorites from './components/Favorites';
 import CarDetails from './components/CarDetails';
 import Layout from './components/Layout';
@@ -97,6 +100,27 @@ function App() {
           <ProtectedRoute>
             <Layout title="Add New Part">
               <AddPart />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/car/add" element={
+          <ProtectedRoute>
+            <Layout title="Add New Car">
+              <AddCar />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/trade-application" element={
+          <ProtectedRoute>
+            <Layout title="Trade Application">
+              <TradeApplication />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/trade-applications" element={
+          <ProtectedRoute>
+            <Layout title="Trade Applications">
+              <TradeApplications />
             </Layout>
           </ProtectedRoute>
         } />

@@ -1,0 +1,490 @@
+/* Add Car Form Styles */
+.add-car-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+
+.add-car-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.add-car-section {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.add-car-section h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.add-car-section h2 svg {
+  color: #d01818;
+  font-size: 20px;
+}
+
+/* Image Upload Styles */
+.add-car-image-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-car-image-upload-area {
+  position: relative;
+}
+
+.add-car-image-input {
+  display: none;
+}
+
+.add-car-image-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.add-car-image-label:hover {
+  border-color: #d01818;
+  background: #fef2f2;
+}
+
+.add-car-image-label svg {
+  font-size: 32px;
+  color: #94a3b8;
+  margin-bottom: 12px;
+}
+
+.add-car-image-label span {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.add-car-image-label small {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.add-car-image-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.add-car-image-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-car-image-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.add-car-image-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: rgba(220, 38, 38, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.add-car-image-remove:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+}
+
+/* Form Grid */
+.add-car-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.add-car-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-car-form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.add-car-form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.add-car-form-group input,
+.add-car-form-group select,
+.add-car-form-group textarea {
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #374151;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.add-car-form-group input:focus,
+.add-car-form-group select:focus,
+.add-car-form-group textarea:focus {
+  outline: none;
+  border-color: #d01818;
+  box-shadow: 0 0 0 3px rgba(208, 24, 24, 0.1);
+}
+
+.add-car-form-group input.error,
+.add-car-form-group select.error,
+.add-car-form-group textarea.error {
+  border-color: #dc2626;
+}
+
+.add-car-form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Radio Buttons */
+.add-car-radio-group {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.add-car-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #374151;
+}
+
+.add-car-radio-label input[type="radio"] {
+  display: none;
+}
+
+.add-car-radio-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.add-car-radio-label input[type="radio"]:checked + .add-car-radio-custom {
+  border-color: #d01818;
+  background: #d01818;
+}
+
+.add-car-radio-label input[type="radio"]:checked + .add-car-radio-custom::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Checkboxes */
+.add-car-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.add-car-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #374151;
+  padding: 8px 0;
+}
+
+.add-car-checkbox-label input[type="checkbox"] {
+  display: none;
+}
+
+.add-car-checkbox-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  position: relative;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+}
+
+.add-car-checkbox-label input[type="checkbox"]:checked + .add-car-checkbox-custom {
+  border-color: #d01818;
+  background: #d01818;
+}
+
+.add-car-checkbox-label input[type="checkbox"]:checked + .add-car-checkbox-custom svg {
+  opacity: 1;
+}
+
+.add-car-checkbox-label input[type="checkbox"]:not(:checked) + .add-car-checkbox-custom svg {
+  opacity: 0;
+}
+
+/* Toggles */
+.add-car-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-car-toggles-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.add-car-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  padding: 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.add-car-toggle-label:hover {
+  border-color: #d1d5db;
+  background: #f9fafb;
+}
+
+.add-car-toggle-label input[type="checkbox"] {
+  display: none;
+}
+
+.add-car-toggle-custom {
+  width: 48px;
+  height: 24px;
+  background: #d1d5db;
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.add-car-toggle-custom::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.add-car-toggle-label input[type="checkbox"]:checked + .add-car-toggle-custom {
+  background: #d01818;
+}
+
+.add-car-toggle-label input[type="checkbox"]:checked + .add-car-toggle-custom::after {
+  transform: translateX(24px);
+}
+
+.add-car-toggle-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.add-car-toggle-text strong {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.add-car-toggle-text small {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Submit Button */
+.add-car-submit {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+.add-car-submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 48px;
+  background: linear-gradient(135deg, #d01818, #ff6b6b);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(208, 24, 24, 0.3);
+}
+
+.add-car-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(208, 24, 24, 0.4);
+}
+
+.add-car-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.add-car-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error Messages */
+.add-car-error {
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .add-car-container {
+    padding: 16px;
+  }
+  
+  
+  .add-car-section {
+    padding: 24px 16px;
+  }
+  
+  .add-car-section h2 {
+    font-size: 20px;
+  }
+  
+  .add-car-form-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .add-car-features-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .add-car-radio-group {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .add-car-toggles-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .add-car-image-preview {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+  }
+  
+  .add-car-submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-car-container {
+    padding: 12px;
+  }
+  
+  .add-car-header {
+    padding: 20px 12px;
+  }
+  
+  .add-car-section {
+    padding: 20px 12px;
+  }
+  
+  .add-car-image-label {
+    padding: 20px 12px;
+  }
+  
+  .add-car-image-label svg {
+    font-size: 28px;
+  }
+  
+  .add-car-image-label span {
+    font-size: 14px;
+  }
+}
