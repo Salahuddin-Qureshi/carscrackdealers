@@ -14,6 +14,9 @@ import AddPart from './components/AddPart';
 import AddCar from './components/AddCar';
 import TradeApplication from './components/TradeApplication';
 import TradeApplications from './components/TradeApplications';
+import AddSubVendor from './components/AddSubVendor';
+import SubVendors from './components/SubVendors';
+import CarRequests from './components/CarRequests';
 import Favorites from './components/Favorites';
 import CarDetails from './components/CarDetails';
 import Layout from './components/Layout';
@@ -121,6 +124,27 @@ function App() {
           <ProtectedRoute>
             <Layout title="Trade Applications">
               <TradeApplications />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/add-subvendor" element={
+          <ProtectedRoute>
+            <Layout title="Add Sub Vendor">
+              <AddSubVendor />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/sub-vendors" element={
+          <ProtectedRoute>
+            <Layout title="Sub Vendors">
+              <SubVendors />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/car-requests" element={
+          <ProtectedRoute>
+            <Layout title="Car Requests">
+              <CarRequests />
             </Layout>
           </ProtectedRoute>
         } />

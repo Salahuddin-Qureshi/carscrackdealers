@@ -34,6 +34,8 @@ const Inventory = () => {
   const [totalCars, setTotalCars] = useState(0);
   const [soldCars, setSoldCars] = useState(0);
   const [activeCars, setActiveCars] = useState(0);
+  const [totalWorth, setTotalWorth] = useState('...');
+  const [monthlySoldData, setMonthlySoldData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [userStatus, setUserStatus] = useState({ certified: false, authorized: false });
@@ -144,9 +146,95 @@ const Inventory = () => {
     }
   };
 
-  // Fetch total cars on component mount
+  // Fetch total worth from API
+  const fetchTotalWorth = async () => {
+    try {
+      if (!baseUrl) {
+        throw new Error('Base URL is not configured');
+      }
+
+      console.log('Total Worth API Request Details:', {
+        method: 'GET',
+        url: `${baseUrl}/certified/car-worth/`
+      });
+
+      const response = await axios.get(`${baseUrl}/certified/car-worth/`);
+
+      if (response.status === 200) {
+        console.log('Total Worth API Response:', response.data);
+        setTotalWorth(response.data.total_worth || '0 Crore');
+      }
+    } catch (err) {
+      console.error('Error fetching total worth:', err);
+      // Don't set error state for total worth as it's not critical
+      setTotalWorth('0 Crore');
+    }
+  };
+
+  // Fetch monthly sold cars data
+  const fetchMonthlySoldCars = async () => {
+    try {
+      const accessToken = Cookies.get('accessToken');
+      
+      if (!accessToken) {
+        throw new Error('Access token not found');
+      }
+      
+      // Decode JWT token to get formatted_id
+      const decodedToken = decodeJWT(accessToken);
+      if (!decodedToken) {
+        throw new Error('Failed to decode access token');
+      }
+      
+      const formattedId = decodedToken.formatted_id;
+      
+      if (!formattedId) {
+        throw new Error('Formatted ID not found in token');
+      }
+      
+      if (!baseUrl) {
+        throw new Error('Base URL is not configured');
+      }
+
+      console.log('Monthly Sold Cars API Request Details:', {
+        method: 'POST',
+        url: `${baseUrl}/certified/cars/sold/monthly/`,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: {
+          formatted_id: formattedId
+        }
+      });
+
+      const response = await axios.post(
+        `${baseUrl}/certified/cars/sold/monthly/`,
+        {
+          formatted_id: formattedId
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        console.log('Monthly Sold Cars API Response:', response.data);
+        setMonthlySoldData(response.data || []);
+      }
+    } catch (err) {
+      console.error('Error fetching monthly sold cars:', err);
+      setMonthlySoldData([]);
+    }
+  };
+
+  // Fetch total cars and total worth on component mount
   useEffect(() => {
     fetchTotalCars();
+    fetchTotalWorth();
   }, []);
 
   // Sample inventory data
@@ -358,14 +446,37 @@ const Inventory = () => {
   const getStats = () => {
     const localActiveCars = cars.filter(car => ['available', 'reserved', 'pending'].includes(car.status));
     const localSoldCars = cars.filter(car => car.status === 'sold');
-    const totalValue = localActiveCars.reduce((sum, car) => sum + car.price, 0);
     const totalViews = cars.reduce((sum, car) => sum + (car.views || 0), 0);
+    
+    // Calculate monthly totals when sold tab is active
+    let displaySoldCars = loading ? '...' : soldCars;
+    let displayTotalWorth = totalWorth;
+    
+    if (activeTab === 'sold' && monthlySoldData.length > 0) {
+      // Sum up all sold cars from monthly data
+      const totalSoldCount = monthlySoldData.reduce((sum, month) => sum + month.sold_count, 0);
+      displaySoldCars = totalSoldCount;
+      
+      // Sum up all total worth from monthly data
+      const totalMonthlyWorth = monthlySoldData.reduce((sum, month) => sum + month.total_worth, 0);
+      
+      // Format the total worth
+      if (totalMonthlyWorth >= 10000000) { // 1 crore or more
+        const crores = totalMonthlyWorth / 10000000;
+        displayTotalWorth = `${crores.toFixed(2)} Crore`;
+      } else if (totalMonthlyWorth >= 100000) { // 1 lakh or more
+        const lacs = totalMonthlyWorth / 100000;
+        displayTotalWorth = `${lacs.toFixed(2)} Lac`;
+      } else {
+        displayTotalWorth = `${new Intl.NumberFormat('en-US').format(totalMonthlyWorth)}`;
+      }
+    }
     
     return {
       total: loading ? '...' : totalCars, // Use API data for total cars
       active: loading ? '...' : activeCars, // Use API data for active cars
-      sold: loading ? '...' : soldCars, // Use API data for sold cars
-      totalValue,
+      sold: displaySoldCars, // Use monthly data when sold tab is active
+      totalWorth: displayTotalWorth, // Use monthly data when sold tab is active
       totalViews
     };
   };
@@ -444,7 +555,9 @@ const Inventory = () => {
             </div>
             <div className="inventory-stat-content">
               <div className="inventory-stat-value">{stats.sold}</div>
-              <div className="inventory-stat-label">Sold Cars</div>
+              <div className="inventory-stat-label">
+                {activeTab === 'sold' && monthlySoldData.length > 0 ? 'Sold Cars this month' : 'Sold Cars'}
+              </div>
             </div>
           </div>
           <div className="inventory-stat-card">
@@ -453,22 +566,15 @@ const Inventory = () => {
             </div>
             <div className="inventory-stat-content">
               <div className="inventory-stat-value">
-                {(() => {
-                  // Convert USD to PKR (assuming 1 USD = 280 PKR)
-                  const pkrValue = stats.totalValue * 280;
-                  
-                  if (pkrValue >= 10000000) { // 1 crore or more
-                    const crores = pkrValue / 10000000;
-                    return `${crores.toFixed(1)} Cr`;
-                  } else if (pkrValue >= 100000) { // 1 lakh or more
-                    const lacs = pkrValue / 100000;
-                    return `${lacs.toFixed(1)} Lac`;
-                  } else {
-                    return `${new Intl.NumberFormat('en-US').format(pkrValue)}`;
-                  }
-                })()}
+                {loading ? (
+                  <span className="inventory-loading">Loading...</span>
+                ) : (
+                  stats.totalWorth
+                )}
               </div>
-              <div className="inventory-stat-label">Total Value</div>
+              <div className="inventory-stat-label">
+                {activeTab === 'sold' && monthlySoldData.length > 0 ? 'Total Value this month' : 'Total Value'}
+              </div>
             </div>
           </div>
         </div>
@@ -479,7 +585,13 @@ const Inventory = () => {
             <button
               key={tab.id}
               className={`inventory-tab ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                setActiveTab(tab.id);
+                // Fetch monthly sold cars data when sold tab is clicked
+                if (tab.id === 'sold') {
+                  fetchMonthlySoldCars();
+                }
+              }}
             >
               {tab.icon}
               <span>{tab.label}</span>

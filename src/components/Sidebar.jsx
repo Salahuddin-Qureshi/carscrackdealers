@@ -81,15 +81,20 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
       label: 'Trade Cars' 
     },
     { 
-      path: '/requested-cars', 
+      path: '/car-requests', 
       icon: <FaFileAlt size={18} />, 
-      label: 'Requested Cars' 
+      label: 'Car Requests' 
     },
-    { 
-      path: '/add-vendor', 
-      icon: <FaUserPlus size={18} />, 
-      label: 'Add Sub-Vendor' 
-    },
+    // { 
+    //   path: '/add-subvendor', 
+    //   icon: <FaUserPlus size={18} />, 
+    //   label: 'Add Sub-Vendor' 
+    // },
+    // { 
+    //   path: '/sub-vendors', 
+    //   icon: <FaUsers size={18} />, 
+    //   label: 'Sub Vendors' 
+    // },
     { 
       path: '/messages', 
       icon: <FaCommentDots size={18} />, 
