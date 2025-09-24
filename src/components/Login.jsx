@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock } from 'react-icons/fa';
 import '../styles/Login.css';
@@ -15,9 +14,6 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
-  // Get base URL from environment variables
-  const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
   
   const handleChange = (e) => {
     setFormData({
@@ -26,89 +22,38 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
-    // Debug: Log the full API URL
-    const apiUrl = `${baseUrl}/vendor/login/`;
-
-    try {
-      const response = await axios.post(
-        apiUrl,
-        {
-          email: formData.email,
-          password: formData.password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      if (response.status === 200 || response.status === 201) {
-        const responseData = response.data;
-        
-        // Save login status
-        Cookies.set('isLoggedIn', 'true', { expires: 7 }); // 7 days
-        
-        // Save access token
-        const accessToken = responseData.token?.access;
-        if (accessToken) {
-          Cookies.set('accessToken', accessToken, { expires: 7 });
-        }
-        
-        // Save refresh token
-        const refreshToken = responseData.token?.refresh;
-        if (refreshToken) {
-          Cookies.set('refreshToken', refreshToken, { expires: 30 }); // 30 days
-        }
-
-        
-        // Navigate to dashboard
-        navigate('/dashboard');
-      }
-    } catch (error) {
-      
-      if (error.response) {
-        // Server responded with error status
-        const responseData = error.response.data;
-        
-        // Handle specific error formats from your backend
-        if (responseData?.errors) {
-          // Handle multiple field errors
-          const errorMessages = [];
-          
-          if (responseData.errors.email) {
-            errorMessages.push(`Email: ${responseData.errors.email}`);
-          }
-          if (responseData.errors.password) {
-            errorMessages.push(`Password: ${responseData.errors.password}`);
-          }
-          
-          setError(errorMessages.join('. '));
-        } else if (responseData?.message) {
-          // Handle single message error
-          setError(responseData.message);
-        } else if (responseData?.detail) {
-          // Handle detail error
-          setError(responseData.detail);
-        } else {
-          // Fallback error message
-          setError('Login failed. Please try again.');
-        }
-      } else if (error.request) {
-        // Network error
-        setError('Network error. Please check your connection.');
-      } else {
-        // Other error
-        setError('An error occurred. Please try again.');
-      }
-    } finally {
+    // Basic validation
+    if (!formData.email || !formData.password) {
+      setError('Please fill in all fields');
       setIsLoading(false);
+      return;
     }
+
+    // Simulate API call with setTimeout
+    setTimeout(() => {
+      // For demo purposes, accept any email/password combination
+      // In a real app, you would validate against your backend
+      
+      // Save login status
+      Cookies.set('isLoggedIn', 'true', { expires: 7 }); // 7 days
+      
+      // Save mock access token for demo
+      Cookies.set('accessToken', 'mock-access-token-' + Date.now(), { expires: 7 });
+      
+      // Save mock refresh token for demo
+      Cookies.set('refreshToken', 'mock-refresh-token-' + Date.now(), { expires: 30 });
+      
+      console.log('Static login successful for:', formData.email);
+      
+      // Navigate to dashboard
+      navigate('/dashboard');
+      setIsLoading(false);
+    }, 1000); // Simulate 1 second loading
   };
 
   return (
@@ -117,7 +62,7 @@ const Login = () => {
         <div className="login-header">
           <div className="login-logo-container">
             <img src={companyLogo} alt="Cars Crack Dealer Logo" className="login-logo-icon" />
-            <h1 className="login-company-name">Cars Crack Dealer</h1>
+            <h1 className="login-company-name">Warehouse Management</h1>
           </div>
           <p className="login-welcome-text">Welcome back! Please sign in to your account.</p>
         </div>

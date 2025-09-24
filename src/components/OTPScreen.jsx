@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import '../styles/OTPScreen.css';
 import companyLogo from '../assets/images/company-logo-black.png';
 import SuccessPopup from './SuccessPopup';
@@ -14,9 +13,6 @@ const OTPScreen = () => {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const inputRefs = useRef([]);
   const navigate = useNavigate();
-
-  // Get base URL from environment variables
-  const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
   // Get email from localStorage on component mount
   useEffect(() => {
@@ -53,7 +49,7 @@ const OTPScreen = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
@@ -66,73 +62,21 @@ const OTPScreen = () => {
       return;
     }
 
-    try {
-      const apiUrl = `${baseUrl}/vendor/verify-otp/`;
-      const payload = {
-        email: email,
-        otp: otpString,
-      };
-
-      console.log("Sending OTP verification request to:", apiUrl);
-      console.log("OTP payload:", payload);
-
-      const response = await axios.post(apiUrl, payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log("OTP verification response status:", response.status);
-      console.log("OTP verification response data:", response.data);
-
-      if (response.status === 200 || response.status === 201) {
-        console.log("OTP verified successfully");
-        
-        // Clear email from localStorage
-        localStorage.removeItem('email');
-        
-        // Show success popup
-        setShowSuccessPopup(true);
-      }
-    } catch (error) {
-      console.error('OTP verification error:', error);
+    // Simulate API call with setTimeout
+    setTimeout(() => {
+      // For demo purposes, accept any 6-digit OTP
+      // In a real app, you would validate against your backend
       
-      if (error.response) {
-        // Server responded with error status
-        const responseData = error.response.data;
-        
-        // Handle specific error formats from your backend
-        if (responseData?.errors) {
-          // Handle multiple field errors
-          const errorMessages = [];
-          
-          Object.keys(responseData.errors).forEach(field => {
-            if (responseData.errors[field]) {
-              errorMessages.push(`${field}: ${responseData.errors[field]}`);
-            }
-          });
-          
-          setError(errorMessages.join('. '));
-        } else if (responseData?.message) {
-          // Handle single message error
-          setError(responseData.message);
-        } else if (responseData?.detail) {
-          // Handle detail error
-          setError(responseData.detail);
-        } else {
-          // Fallback error message
-          setError('OTP verification failed. Please try again.');
-        }
-      } else if (error.request) {
-        // Network error
-        setError('Network error. Please check your connection.');
-      } else {
-        // Other error
-        setError('An error occurred. Please try again.');
-      }
-    } finally {
+      console.log('Static OTP verification successful for:', email);
+      console.log('OTP entered:', otpString);
+      
+      // Clear email from localStorage
+      localStorage.removeItem('email');
+      
+      // Show success popup
+      setShowSuccessPopup(true);
       setIsLoading(false);
-    }
+    }, 1000); // Simulate 1 second loading
   };
 
   const resendOTP = () => {
@@ -151,7 +95,7 @@ const OTPScreen = () => {
         <div className="otp-header">
           <div className="logo-container">
             <img src={companyLogo} alt="Cars Crack Dealer Logo" className="logo-icon" />
-            <h1 className="company-name">Cars Crack Dealer</h1>
+            <h1 className="company-name">Warehouse Management</h1>
           </div>
           <h2 className="otp-title">Verify OTP</h2>
           <p className="otp-text">We've sent a 6-digit code to your email</p>

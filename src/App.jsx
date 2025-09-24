@@ -17,6 +17,7 @@ import TradeApplications from './components/TradeApplications';
 import AddSubVendor from './components/AddSubVendor';
 import SubVendors from './components/SubVendors';
 import CarRequests from './components/CarRequests';
+import DocumentRequests from './components/DocumentRequests';
 import Favorites from './components/Favorites';
 import CarDetails from './components/CarDetails';
 import Layout from './components/Layout';
@@ -146,6 +147,11 @@ function App() {
             <Layout title="Car Requests">
               <CarRequests />
             </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/document-requests" element={
+          <ProtectedRoute>
+            <DocumentRequests />
           </ProtectedRoute>
         } />
         <Route path="/favorites" element={

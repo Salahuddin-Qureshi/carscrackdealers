@@ -55,56 +55,62 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
       icon: <FaTh size={18} />, 
       label: 'Dashboard' 
     },
-    { 
-      path: '/car/add', 
-      icon: <FaCar size={18} />, 
-      label: 'Sell Your Car' 
-    },
-    { 
-      path: '/inventory', 
-      icon: <FaCheckCircle size={18} />, 
-      label: 'My Inventory' 
-    },
+    // COMMENTED OUT: Car-specific items not relevant for document management
+    // { 
+    //   path: '/car/add', 
+    //   icon: <FaCar size={18} />, 
+    //   label: 'Sell Your Car' 
+    // },
+    // COMMENTED OUT: Document management items
+    // { 
+    //   path: '/inventory', 
+    //   icon: <FaCheckCircle size={18} />, 
+    //   label: 'Document Boxes' 
+    // },
     { 
       path: '/parts-store', 
       icon: <FaCogs size={18} />, 
-      label: 'Parts Store' 
+      label: 'Document Categories' 
     },
+    // COMMENTED OUT: Favorites
+    // { 
+    //   path: '/favorites', 
+    //   icon: <FaHeart size={18} />, 
+    //   label: 'Favorites' 
+    // },
+    // COMMENTED OUT: Car-specific items not relevant for document management
+    // { 
+    //   path: '/trade-applications', 
+    //   icon: <FaExchangeAlt size={18} />, 
+    //   label: 'Trade Cars' 
+    // },
     { 
-      path: '/favorites', 
-      icon: <FaHeart size={18} />, 
-      label: 'My Favorites' 
-    },
-    { 
-      path: '/trade-applications', 
-      icon: <FaExchangeAlt size={18} />, 
-      label: 'Trade Cars' 
-    },
-    { 
-      path: '/car-requests', 
+      path: '/document-requests', 
       icon: <FaFileAlt size={18} />, 
-      label: 'Car Requests' 
+      label: 'Document Requests' 
     },
+    // COMMENTED OUT: User management items
     // { 
     //   path: '/add-subvendor', 
     //   icon: <FaUserPlus size={18} />, 
-    //   label: 'Add Sub-Vendor' 
+    //   label: 'Add User' 
     // },
     // { 
     //   path: '/sub-vendors', 
     //   icon: <FaUsers size={18} />, 
-    //   label: 'Sub Vendors' 
+    //   label: 'User Management' 
     // },
     { 
       path: '/messages', 
       icon: <FaCommentDots size={18} />, 
       label: 'Messages' 
     },
-    { 
-      path: '/buy-cars', 
-      icon: <FaShoppingBag size={18} />, 
-      label: 'Buy Cars' 
-    },
+    // COMMENTED OUT: Car-specific items not relevant for document management
+    // { 
+    //   path: '/buy-cars', 
+    //   icon: <FaShoppingBag size={18} />, 
+    //   label: 'Buy Cars' 
+    // },
     { 
       path: '/subscription', 
       icon: <FaCrown size={18} />, 
@@ -161,8 +167,8 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
               <FaUser size={20} />
             </div>
             <div className="user-info">
-              <span className="user-name">John Dealer</span>
-              <span className="user-role">Premium Dealer</span>
+              <span className="user-name">John Manager</span>
+              <span className="user-role">Document Manager</span>
             </div>
             <FaChevronDown 
               size={14} 

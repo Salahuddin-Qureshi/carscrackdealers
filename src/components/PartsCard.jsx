@@ -1,18 +1,31 @@
 import React from 'react';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaFileAlt, FaFolder, FaArchive, FaCogs } from 'react-icons/fa';
 import '../styles/PartsCard.css';
 
 const PartsCard = ({ part, onView, onEdit, onDelete }) => {
-  const formatPrice = (price) => {
-    const pkrPrice = price * 280; // Assuming 1 USD = 280 PKR
-    if (pkrPrice >= 10000000) {
-      const crores = pkrPrice / 10000000;
-      return `${crores.toFixed(1)} Cr`;
-    } else if (pkrPrice >= 100000) {
-      const lacs = pkrPrice / 100000;
-      return `${lacs.toFixed(1)} Lac`;
-    } else {
-      return `${new Intl.NumberFormat('en-US').format(pkrPrice)}`;
+  const formatStorageSize = (size) => {
+    return size; // Already formatted as "X.X GB"
+  };
+
+  const formatDocumentCount = (count) => {
+    if (count >= 1000) {
+      return `${(count / 1000).toFixed(1)}K`;
+    }
+    return count.toString();
+  };
+
+  const getCategoryIcon = (iconName) => {
+    switch (iconName) {
+      case 'FaFileAlt':
+        return <FaFileAlt size={20} />;
+      case 'FaFolder':
+        return <FaFolder size={20} />;
+      case 'FaArchive':
+        return <FaArchive size={20} />;
+      case 'FaCogs':
+        return <FaCogs size={20} />;
+      default:
+        return <FaFileAlt size={20} />;
     }
   };
 
@@ -33,37 +46,37 @@ const PartsCard = ({ part, onView, onEdit, onDelete }) => {
       style={{ cursor: 'pointer' }}
     >
       <div className="parts-image-section">
-        <img 
-          src={part.images[0] || '/api/placeholder/300/200'} 
-          alt={part.name}
-          className="parts-image"
-        />
+        <div className="parts-icon-container">
+          {getCategoryIcon(part.icon)}
+        </div>
       </div>
 
       <div className="parts-content">
         <div className="parts-header">
           <h3 className="parts-title">{part.name}</h3>
           <div className="parts-price">
-            <span className="parts-price-amount">{formatPrice(part.price)}</span>
+            <span className="parts-price-amount">{formatDocumentCount(part.documentCount)} docs</span>
           </div>
         </div>
 
         <div className="parts-details">
           <div className="parts-detail-item">
-            <span className="parts-detail-label">Make:</span>
-            <span className="parts-detail-value">{part.make}</span>
+            <span className="parts-detail-label">Category:</span>
+            <span className="parts-detail-value">{part.category}</span>
           </div>
           <div className="parts-detail-item">
-            <span className="parts-detail-label">Model:</span>
-            <span className="parts-detail-value">{part.model}</span>
+            <span className="parts-detail-label">Type:</span>
+            <span className="parts-detail-value">{part.type}</span>
           </div>
           <div className="parts-detail-item">
-            <span className="parts-detail-label">Year:</span>
-            <span className="parts-detail-value">{part.year}</span>
+            <span className="parts-detail-label">Storage:</span>
+            <span className="parts-detail-value">{formatStorageSize(part.storageSize)}</span>
           </div>
           <div className="parts-detail-item">
-            <span className="parts-detail-label">Stock:</span>
-            <span className="parts-detail-value">{part.stock} units</span>
+            <span className="parts-detail-label">Status:</span>
+            <span className={`parts-detail-value parts-status-${part.status}`}>
+              {part.status.charAt(0).toUpperCase() + part.status.slice(1)}
+            </span>
           </div>
         </div>
 
@@ -75,6 +88,10 @@ const PartsCard = ({ part, onView, onEdit, onDelete }) => {
           <div className="parts-meta-item">
             <span className="parts-meta-label">Added:</span>
             <span className="parts-meta-value">{formatDate(part.dateAdded)}</span>
+          </div>
+          <div className="parts-meta-item">
+            <span className="parts-meta-label">Retention:</span>
+            <span className="parts-meta-value">{part.retentionPeriod}</span>
           </div>
         </div>
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaUser, FaBuilding, FaPhone, FaMapMarkerAlt, FaCity, FaCalendarAlt } from 'react-icons/fa';
 import '../styles/Signup.css';
 import companyLogo from '../assets/images/company-logo-black.png';
@@ -23,9 +22,6 @@ const Signup = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Get base URL from environment variables
-  const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -33,10 +29,19 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+
+    // Basic validation
+    if (!formData.dealerName || !formData.companyName || !formData.email || 
+        !formData.phone || !formData.address || !formData.city || 
+        !formData.age || !formData.password || !formData.confirmPassword) {
+      setError('Please fill in all fields');
+      setIsLoading(false);
+      return;
+    }
 
     // Validate password confirmation
     if (formData.password !== formData.confirmPassword) {
@@ -45,81 +50,33 @@ const Signup = () => {
       return;
     }
 
-    try {
-      const apiUrl = `${baseUrl}/vendor/register/`;
-      const payload = {
-        phone_number: formData.phone, // Assuming no country code for now
-        name: formData.dealerName,
-        company_name: formData.companyName,
-        address: formData.address,
-        email: formData.email,
-        city: formData.city,
-        age: parseInt(formData.age),
-        password: formData.password,
-        confirm_password: formData.confirmPassword,
-      };
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address');
+      setIsLoading(false);
+      return;
+    }
 
-      console.log("Sending vendor registration request to:", apiUrl);
-      console.log("Vendor payload:", payload);
+    // Validate age
+    const age = parseInt(formData.age);
+    if (age < 18 || age > 100) {
+      setError('Age must be between 18 and 100');
+      setIsLoading(false);
+      return;
+    }
 
-      const response = await axios.post(apiUrl, payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log("Vendor registration response status:", response.status);
-      console.log("Vendor registration response data:", response.data);
-
-      if (response.status === 200 || response.status === 201) {
-        const email = response.data.email || formData.email;
-        console.log("OTP sent successfully to email:", email);
-        
-        // Store email for OTP verification
-        localStorage.setItem("email", email);
+    // Simulate API call with setTimeout
+    setTimeout(() => {
+      console.log('Static signup successful for:', formData.email);
+      
+      // Store email for OTP verification (static flow)
+      localStorage.setItem("email", formData.email);
         
         // Navigate to OTP screen
         navigate('/otp');
-      }
-    } catch (error) {
-      console.error('Signup error:', error);
-      
-      if (error.response) {
-        // Server responded with error status
-        const responseData = error.response.data;
-        
-        // Handle specific error formats from your backend
-        if (responseData?.errors) {
-          // Handle multiple field errors
-          const errorMessages = [];
-          
-          Object.keys(responseData.errors).forEach(field => {
-            if (responseData.errors[field]) {
-              errorMessages.push(`${field}: ${responseData.errors[field]}`);
-            }
-          });
-          
-          setError(errorMessages.join('. '));
-        } else if (responseData?.message) {
-          // Handle single message error
-          setError(responseData.message);
-        } else if (responseData?.detail) {
-          // Handle detail error
-          setError(responseData.detail);
-        } else {
-          // Fallback error message
-          setError('Registration failed. Please try again.');
-        }
-      } else if (error.request) {
-        // Network error
-        setError('Network error. Please check your connection.');
-      } else {
-        // Other error
-        setError('An error occurred. Please try again.');
-      }
-    } finally {
       setIsLoading(false);
-    }
+    }, 1500); // Simulate 1.5 second loading
   };
 
   return (
@@ -135,7 +92,7 @@ const Signup = () => {
         <div className="signup-header">
           <div className="signup-logo-container">
             <img src={companyLogo} alt="Cars Crack Dealer Logo" className="signup-logo-icon" />
-            <h1 className="signup-company-name">Cars Crack Dealer</h1>
+            <h1 className="signup-company-name">Warehouse Management</h1>
           </div>
           <p className="signup-welcome-text">Create your dealer account</p>
         </div>
