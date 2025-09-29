@@ -34,24 +34,38 @@ const Login = () => {
       return;
     }
 
+    // Static credentials for demo
+    const validCredentials = [
+      { email: 'admin@warehouse.com', password: 'admin123' },
+      { email: 'manager@warehouse.com', password: 'manager123' },
+      { email: 'user@warehouse.com', password: 'user123' },
+      { email: 'demo@warehouse.com', password: 'demo123' }
+    ];
+
+    // Check if credentials match
+    const isValidCredential = validCredentials.find(
+      cred => cred.email === formData.email && cred.password === formData.password
+    );
+
     // Simulate API call with setTimeout
     setTimeout(() => {
-      // For demo purposes, accept any email/password combination
-      // In a real app, you would validate against your backend
-      
-      // Save login status
-      Cookies.set('isLoggedIn', 'true', { expires: 7 }); // 7 days
-      
-      // Save mock access token for demo
-      Cookies.set('accessToken', 'mock-access-token-' + Date.now(), { expires: 7 });
-      
-      // Save mock refresh token for demo
-      Cookies.set('refreshToken', 'mock-refresh-token-' + Date.now(), { expires: 30 });
-      
-      console.log('Static login successful for:', formData.email);
-      
-      // Navigate to dashboard
-      navigate('/dashboard');
+      if (isValidCredential) {
+        // Save login status
+        Cookies.set('isLoggedIn', 'true', { expires: 7 }); // 7 days
+        
+        // Save mock access token for demo
+        Cookies.set('accessToken', 'mock-access-token-' + Date.now(), { expires: 7 });
+        
+        // Save mock refresh token for demo
+        Cookies.set('refreshToken', 'mock-refresh-token-' + Date.now(), { expires: 30 });
+        
+        console.log('Static login successful for:', formData.email);
+        
+        // Navigate to dashboard
+        navigate('/dashboard');
+      } else {
+        setError('Invalid email or password. Please try again.');
+      }
       setIsLoading(false);
     }, 1000); // Simulate 1 second loading
   };

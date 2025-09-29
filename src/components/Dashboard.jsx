@@ -13,7 +13,9 @@ import {
   FaWarehouse,
   FaTools,
   FaTruck,
-  FaFileAlt
+  FaFileAlt,
+  FaTimes,
+  FaSave
 } from 'react-icons/fa';
 import '../styles/Dashboard.css';
 import companyLogo from '../assets/images/company-logo-black.png';
@@ -26,7 +28,137 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showAddBoxForm, setShowAddBoxForm] = useState(false);
+  const [showBoxLimitForm, setShowBoxLimitForm] = useState(false);
   const navigate = useNavigate();
+
+  // Frontend variable objects for box limits and functionality
+  const [boxLimits, setBoxLimits] = useState({
+    CA: { maxBoxes: 1000, description: 'CA Storage Center - Legal and Financial Documents', currentBoxes: 4 },
+    AR: { maxBoxes: 3000, description: 'Aramex Storage Center - HR and Technical Documents', currentBoxes: 2 },
+    VL: { maxBoxes: 2000, description: 'Villa Storage Center - Archive and Compliance Documents', currentBoxes: 1 }
+  });
+
+  const [boxLimitForm, setBoxLimitForm] = useState({
+    center: '',
+    maxBoxes: '',
+    description: ''
+  });
+
+  // Frontend JSON variables for box management
+  const [boxManagementData, setBoxManagementData] = useState({
+    boxes: [
+      {
+        id: 1,
+        name: 'Small Box',
+        size: 'Small',
+        description: 'Compact storage for small documents',
+        location: 'CA Storage',
+        capacity: 50,
+        currentDocuments: 0,
+        status: 'Available',
+        createdAt: '2024-01-15',
+        lastAccessed: '2024-01-20',
+        accessCount: 5,
+        currentLocation: 'CA Storage',
+        destinationLocation: 'Archive Storage',
+        locationHistory: [
+          { date: '2024-01-15', location: 'CA Storage', action: 'Initial Placement', user: 'Admin' },
+          { date: '2024-01-16', location: 'CA Storage', action: 'Documents Added', user: 'John Doe' },
+          { date: '2024-01-18', location: 'CA Storage', action: 'Documents Retrieved', user: 'Jane Smith' },
+          { date: '2024-01-20', location: 'CA Storage', action: 'Status Updated', user: 'Admin' }
+        ],
+        documents: [
+          { id: 1, name: 'Contract_2024_001.pdf', type: 'Legal', addedDate: '2024-01-16', addedBy: 'John Doe' },
+          { id: 2, name: 'Invoice_2024_002.pdf', type: 'Financial', addedDate: '2024-01-16', addedBy: 'John Doe' },
+          { id: 3, name: 'Report_2024_003.pdf', type: 'Report', addedDate: '2024-01-17', addedBy: 'Jane Smith' }
+        ],
+        trackingHistory: [
+          { date: '2024-01-15', action: 'Created', user: 'Admin', details: 'Box created' },
+          { date: '2024-01-16', action: 'Accessed', user: 'John Doe', details: 'Documents added' },
+          { date: '2024-01-18', action: 'Accessed', user: 'Jane Smith', details: 'Documents retrieved' },
+          { date: '2024-01-20', action: 'Updated', user: 'Admin', details: 'Status changed to Available' }
+        ]
+      },
+      {
+        id: 2,
+        name: 'Medium Box',
+        size: 'Medium',
+        description: 'Standard storage for regular documents',
+        location: 'AR Storage',
+        capacity: 100,
+        currentDocuments: 0,
+        status: 'Available',
+        createdAt: '2024-01-16',
+        lastAccessed: '2024-01-19',
+        accessCount: 3,
+        currentLocation: 'AR Storage',
+        destinationLocation: 'CA Storage',
+        locationHistory: [
+          { date: '2024-01-16', location: 'AR Storage', action: 'Initial Placement', user: 'Admin' },
+          { date: '2024-01-17', location: 'AR Storage', action: 'Documents Added', user: 'Mike Davis' },
+          { date: '2024-01-19', location: 'AR Storage', action: 'Documents Retrieved', user: 'Sarah Johnson' }
+        ],
+        documents: [
+          { id: 4, name: 'HR_File_001.pdf', type: 'HR', addedDate: '2024-01-17', addedBy: 'Mike Davis' },
+          { id: 5, name: 'Employee_Record_002.pdf', type: 'HR', addedDate: '2024-01-17', addedBy: 'Mike Davis' }
+        ],
+        trackingHistory: [
+          { date: '2024-01-16', action: 'Created', user: 'Admin', details: 'Box created' },
+          { date: '2024-01-17', action: 'Accessed', user: 'Mike Davis', details: 'Documents added' },
+          { date: '2024-01-19', action: 'Accessed', user: 'Sarah Johnson', details: 'Documents retrieved' }
+        ]
+      },
+      {
+        id: 3,
+        name: 'Large Box',
+        size: 'Large',
+        description: 'Spacious storage for large documents',
+        location: 'VL Storage',
+        capacity: 200,
+        currentDocuments: 0,
+        status: 'Available',
+        createdAt: '2024-01-17',
+        lastAccessed: '2024-01-18',
+        accessCount: 2,
+        currentLocation: 'VL Storage',
+        destinationLocation: 'Archive Storage',
+        locationHistory: [
+          { date: '2024-01-17', location: 'VL Storage', action: 'Initial Placement', user: 'Admin' },
+          { date: '2024-01-18', location: 'VL Storage', action: 'Documents Added', user: 'Lisa Wilson' }
+        ],
+        documents: [
+          { id: 6, name: 'Technical_Manual_001.pdf', type: 'Technical', addedDate: '2024-01-18', addedBy: 'Lisa Wilson' }
+        ],
+        trackingHistory: [
+          { date: '2024-01-17', action: 'Created', user: 'Admin', details: 'Box created' },
+          { date: '2024-01-18', action: 'Accessed', user: 'Lisa Wilson', details: 'Documents added' }
+        ]
+      }
+    ],
+    boxSizes: ['Small', 'Medium', 'Large', 'Extra Large'],
+    locations: ['CA Storage', 'AR Storage', 'VL Storage', 'Archive Storage'],
+    nextId: 4
+  });
+
+  const [boxForm, setBoxForm] = useState({
+    name: '',
+    size: '',
+    description: '',
+    location: '',
+    capacity: ''
+  });
+
+  const [editingBox, setEditingBox] = useState(null);
+  const [editForm, setEditForm] = useState({
+    name: '',
+    size: '',
+    description: '',
+    location: '',
+    capacity: ''
+  });
+
+  const [showTrackingModal, setShowTrackingModal] = useState(false);
+  const [selectedBoxForTracking, setSelectedBoxForTracking] = useState(null);
 
   const stats = [
     { title: 'Total Documents', value: '2,456', change: '+12%', color: '#d01818', icon: <FaFileAlt /> },
@@ -159,7 +291,292 @@ const Dashboard = () => {
   const handleSubmitBox = (boxData) => {
     // Add the new box to the recentBoxes array
     setRecentBoxes(prev => [boxData, ...prev]);
+    
+    // Update box limits count
+    setBoxLimits(prev => ({
+      ...prev,
+      [boxData.center]: {
+        ...prev[boxData.center],
+        currentBoxes: prev[boxData.center].currentBoxes + 1
+      }
+    }));
+    
     console.log('New box created:', boxData);
+  };
+
+  // Box Limit Management Functions
+  const handleOpenBoxLimitForm = () => {
+    setShowBoxLimitForm(true);
+  };
+
+  const handleCloseBoxLimitForm = () => {
+    setShowBoxLimitForm(false);
+    setBoxLimitForm({ center: '', maxBoxes: '', description: '' });
+  };
+
+  const handleBoxLimitInputChange = (field, value) => {
+    setBoxLimitForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSubmitBoxLimit = (e) => {
+    e.preventDefault();
+    
+    if (boxLimitForm.center && boxLimitForm.maxBoxes && boxLimitForm.description) {
+      setBoxLimits(prev => ({
+        ...prev,
+        [boxLimitForm.center]: {
+          maxBoxes: parseInt(boxLimitForm.maxBoxes),
+          description: boxLimitForm.description,
+          currentBoxes: prev[boxLimitForm.center]?.currentBoxes || 0
+        }
+      }));
+      
+      console.log('Box limit updated:', boxLimitForm);
+      handleCloseBoxLimitForm();
+    }
+  };
+
+  const getAvailableBoxNumbers = (center) => {
+    const limit = boxLimits[center];
+    if (!limit) return [];
+    
+    const usedNumbers = recentBoxes
+      .filter(box => box.center === center)
+      .map(box => parseInt(box.documentLimit));
+    
+    const availableNumbers = [];
+    for (let i = 1; i <= limit.maxBoxes; i++) {
+      if (!usedNumbers.includes(i)) {
+        availableNumbers.push(i);
+      }
+    }
+    return availableNumbers;
+  };
+
+  // Box Management Functions
+  const handleBoxInputChange = (field, value) => {
+    setBoxForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSubmitNewBox = (e) => {
+    e.preventDefault();
+    
+    if (boxForm.name && boxForm.size && boxForm.description && boxForm.location && boxForm.capacity) {
+      const newBox = {
+        id: boxManagementData.nextId,
+        name: boxForm.name,
+        size: boxForm.size,
+        description: boxForm.description,
+        location: boxForm.location,
+        capacity: parseInt(boxForm.capacity),
+        currentDocuments: 0,
+        status: 'Available',
+        createdAt: new Date().toISOString().split('T')[0]
+      };
+
+      setBoxManagementData(prev => ({
+        ...prev,
+        boxes: [...prev.boxes, newBox],
+        nextId: prev.nextId + 1
+      }));
+
+      console.log('New box created:', newBox);
+      
+      // Reset form
+      setBoxForm({
+        name: '',
+        size: '',
+        description: '',
+        location: '',
+        capacity: ''
+      });
+    }
+  };
+
+  const handleDeleteBox = (boxId) => {
+    setBoxManagementData(prev => ({
+      ...prev,
+      boxes: prev.boxes.filter(box => box.id !== boxId)
+    }));
+  };
+
+  const handleUpdateBoxStatus = (boxId, newStatus) => {
+    const currentDate = new Date().toISOString().split('T')[0];
+    
+    setBoxManagementData(prev => ({
+      ...prev,
+      boxes: prev.boxes.map(box => 
+        box.id === boxId ? { 
+          ...box, 
+          status: newStatus,
+          lastAccessed: currentDate,
+          accessCount: box.accessCount + 1,
+          trackingHistory: [
+            ...box.trackingHistory,
+            { 
+              date: currentDate, 
+              action: 'Status Updated', 
+              user: 'Current User', 
+              details: `Status changed to ${newStatus}` 
+            }
+          ]
+        } : box
+      )
+    }));
+  };
+
+  // Edit Functions
+  const handleEditBox = (box) => {
+    setEditingBox(box.id);
+    setEditForm({
+      name: box.name,
+      size: box.size,
+      description: box.description,
+      location: box.location,
+      capacity: box.capacity.toString()
+    });
+  };
+
+  const handleEditInputChange = (field, value) => {
+    setEditForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
+    
+    if (editForm.name && editForm.size && editForm.description && editForm.location && editForm.capacity) {
+      const currentDate = new Date().toISOString().split('T')[0];
+      
+      setBoxManagementData(prev => ({
+        ...prev,
+        boxes: prev.boxes.map(box => 
+          box.id === editingBox ? {
+            ...box,
+            name: editForm.name,
+            size: editForm.size,
+            description: editForm.description,
+            location: editForm.location,
+            capacity: parseInt(editForm.capacity),
+            lastAccessed: currentDate,
+            accessCount: box.accessCount + 1,
+            trackingHistory: [
+              ...box.trackingHistory,
+              { 
+                date: currentDate, 
+                action: 'Edited', 
+                user: 'Current User', 
+                details: 'Box details updated' 
+              }
+            ]
+          } : box
+        )
+      }));
+
+      setEditingBox(null);
+      setEditForm({ name: '', size: '', description: '', location: '', capacity: '' });
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingBox(null);
+    setEditForm({ name: '', size: '', description: '', location: '', capacity: '' });
+  };
+
+  const handleAddDocument = (boxId) => {
+    const currentDate = new Date().toISOString().split('T')[0];
+    
+    setBoxManagementData(prev => ({
+      ...prev,
+      boxes: prev.boxes.map(box => 
+        box.id === boxId ? {
+          ...box,
+          currentDocuments: Math.min(box.currentDocuments + 1, box.capacity),
+          lastAccessed: currentDate,
+          accessCount: box.accessCount + 1,
+          status: box.currentDocuments + 1 >= box.capacity ? 'Full' : box.status,
+          trackingHistory: [
+            ...box.trackingHistory,
+            { 
+              date: currentDate, 
+              action: 'Document Added', 
+              user: 'Current User', 
+              details: 'Document added to box' 
+            }
+          ]
+        } : box
+      )
+    }));
+  };
+
+  const handleRemoveDocument = (boxId) => {
+    const currentDate = new Date().toISOString().split('T')[0];
+    
+    setBoxManagementData(prev => ({
+      ...prev,
+      boxes: prev.boxes.map(box => 
+        box.id === boxId ? {
+          ...box,
+          currentDocuments: Math.max(box.currentDocuments - 1, 0),
+          lastAccessed: currentDate,
+          accessCount: box.accessCount + 1,
+          status: box.currentDocuments - 1 <= 0 ? 'Available' : box.status,
+          trackingHistory: [
+            ...box.trackingHistory,
+            { 
+              date: currentDate, 
+              action: 'Document Removed', 
+              user: 'Current User', 
+              details: 'Document removed from box' 
+            }
+          ]
+        } : box
+      )
+    }));
+  };
+
+  // Tracking Functions
+  const handleTrackBox = (box) => {
+    setSelectedBoxForTracking(box);
+    setShowTrackingModal(true);
+  };
+
+  const handleCloseTrackingModal = () => {
+    setShowTrackingModal(false);
+    setSelectedBoxForTracking(null);
+  };
+
+  const handleUpdateDestination = (boxId, newDestination) => {
+    const currentDate = new Date().toISOString().split('T')[0];
+    
+    setBoxManagementData(prev => ({
+      ...prev,
+      boxes: prev.boxes.map(box => 
+        box.id === boxId ? {
+          ...box,
+          destinationLocation: newDestination,
+          lastAccessed: currentDate,
+          accessCount: box.accessCount + 1,
+          trackingHistory: [
+            ...box.trackingHistory,
+            { 
+              date: currentDate, 
+              action: 'Destination Updated', 
+              user: 'Current User', 
+              details: `Destination changed to ${newDestination}` 
+            }
+          ]
+        } : box
+      )
+    }));
   };
 
 
@@ -207,6 +624,12 @@ const Dashboard = () => {
           onClick={() => setActiveTab('users')}
         >
           Users
+        </button>
+        <button 
+          className={`nav-tab ${activeTab === 'box-management' ? 'active' : ''}`}
+          onClick={() => setActiveTab('box-management')}
+        >
+          Box Management
         </button>
       </nav>
 
@@ -374,6 +797,57 @@ const Dashboard = () => {
                     <span className={`car-status ${box.status.toLowerCase().replace(' ', '-')}`}>
                       {box.status}
                     </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Box Limits Management */}
+            <div className="box-limits-section">
+              <div className="section-header">
+                <h3 className="section-title">Storage Center Limits</h3>
+                <button 
+                  className="dashboard-action-btn primary"
+                  onClick={handleOpenBoxLimitForm}
+                >
+                  Configure Box Limits
+                </button>
+              </div>
+              <div className="box-limits-grid">
+                {Object.entries(boxLimits).map(([center, limit]) => (
+                  <div key={center} className="box-limit-card">
+                    <div className="box-limit-header">
+                      <h4>{center} Storage Center</h4>
+                      <span className={`box-limit-status ${limit.currentBoxes >= limit.maxBoxes ? 'full' : 'available'}`}>
+                        {limit.currentBoxes >= limit.maxBoxes ? 'Full' : 'Available'}
+                      </span>
+                    </div>
+                    <div className="box-limit-details">
+                      <p className="box-limit-description">{limit.description}</p>
+                      <div className="box-limit-stats">
+                        <div className="box-limit-stat">
+                          <span className="stat-label">Current Boxes:</span>
+                          <span className="stat-value">{limit.currentBoxes}</span>
+                        </div>
+                        <div className="box-limit-stat">
+                          <span className="stat-label">Max Boxes:</span>
+                          <span className="stat-value">{limit.maxBoxes}</span>
+                        </div>
+                        <div className="box-limit-stat">
+                          <span className="stat-label">Available:</span>
+                          <span className="stat-value">{limit.maxBoxes - limit.currentBoxes}</span>
+                        </div>
+                      </div>
+                      <div className="box-limit-progress">
+                        <div 
+                          className="box-limit-progress-bar"
+                          style={{ 
+                            width: `${(limit.currentBoxes / limit.maxBoxes) * 100}%`,
+                            backgroundColor: limit.currentBoxes >= limit.maxBoxes ? '#dc3545' : '#28a745'
+                          }}
+                        ></div>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -636,6 +1110,248 @@ const Dashboard = () => {
           </div>
         )}
 
+        {activeTab === 'box-management' && (
+          <div className="box-management-content">
+            <div className="content-header">
+              <h2>Box Management</h2>
+              <button 
+                className="add-car-btn"
+                onClick={() => setShowAddBoxForm(true)}
+              >
+                + Add New Box
+              </button>
+            </div>
+
+            {/* Add Box Form */}
+            <div className="box-management-form">
+              <h3>Create New Box</h3>
+              <form onSubmit={handleSubmitNewBox} className="box-form">
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Box Name</label>
+                    <input
+                      type="text"
+                      value={boxForm.name}
+                      onChange={(e) => handleBoxInputChange('name', e.target.value)}
+                      placeholder="Enter box name"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Box Size</label>
+                    <select
+                      value={boxForm.size}
+                      onChange={(e) => handleBoxInputChange('size', e.target.value)}
+                      required
+                    >
+                      <option value="">Select Size</option>
+                      {boxManagementData.boxSizes.map(size => (
+                        <option key={size} value={size}>{size}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Location</label>
+                    <select
+                      value={boxForm.location}
+                      onChange={(e) => handleBoxInputChange('location', e.target.value)}
+                      required
+                    >
+                      <option value="">Select Location</option>
+                      {boxManagementData.locations.map(location => (
+                        <option key={location} value={location}>{location}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Capacity (Documents)</label>
+                    <input
+                      type="number"
+                      value={boxForm.capacity}
+                      onChange={(e) => handleBoxInputChange('capacity', e.target.value)}
+                      placeholder="Enter capacity"
+                      min="1"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Description</label>
+                  <textarea
+                    value={boxForm.description}
+                    onChange={(e) => handleBoxInputChange('description', e.target.value)}
+                    placeholder="Enter box description"
+                    rows="3"
+                    required
+                  />
+                </div>
+
+                <button type="submit" className="btn-primary">Create Box</button>
+              </form>
+            </div>
+
+            {/* Boxes List */}
+            <div className="boxes-list">
+              <h3>Existing Boxes</h3>
+              <div className="boxes-grid">
+                {boxManagementData.boxes.map(box => (
+                  <div key={box.id} className="box-card">
+                    {editingBox === box.id ? (
+                      // Edit Form
+                      <form onSubmit={handleSaveEdit} className="edit-form">
+                        <div className="edit-form-row">
+                          <div className="edit-form-group">
+                            <label>Box Name</label>
+                            <input
+                              type="text"
+                              value={editForm.name}
+                              onChange={(e) => handleEditInputChange('name', e.target.value)}
+                              required
+                            />
+                          </div>
+                          <div className="edit-form-group">
+                            <label>Size</label>
+                            <select
+                              value={editForm.size}
+                              onChange={(e) => handleEditInputChange('size', e.target.value)}
+                              required
+                            >
+                              {boxManagementData.boxSizes.map(size => (
+                                <option key={size} value={size}>{size}</option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="edit-form-row">
+                          <div className="edit-form-group">
+                            <label>Location</label>
+                            <select
+                              value={editForm.location}
+                              onChange={(e) => handleEditInputChange('location', e.target.value)}
+                              required
+                            >
+                              {boxManagementData.locations.map(location => (
+                                <option key={location} value={location}>{location}</option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="edit-form-group">
+                            <label>Capacity</label>
+                            <input
+                              type="number"
+                              value={editForm.capacity}
+                              onChange={(e) => handleEditInputChange('capacity', e.target.value)}
+                              min="1"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className="edit-form-group">
+                          <label>Description</label>
+                          <textarea
+                            value={editForm.description}
+                            onChange={(e) => handleEditInputChange('description', e.target.value)}
+                            rows="2"
+                            required
+                          />
+                        </div>
+                        <div className="edit-actions">
+                          <button type="submit" className="btn-save">Save</button>
+                          <button type="button" className="btn-cancel" onClick={handleCancelEdit}>Cancel</button>
+                        </div>
+                      </form>
+                    ) : (
+                      // Display Mode
+                      <>
+                        <div className="box-header">
+                          <h4>{box.name}</h4>
+                          <span className={`box-status ${box.status.toLowerCase().replace(' ', '-')}`}>
+                            {box.status}
+                          </span>
+                        </div>
+                        <div className="box-details">
+                          <p><strong>Size:</strong> {box.size}</p>
+                          <p><strong>Location:</strong> {box.location}</p>
+                          <p><strong>Capacity:</strong> {box.capacity} documents</p>
+                          <p><strong>Current:</strong> {box.currentDocuments} documents</p>
+                          <p><strong>Description:</strong> {box.description}</p>
+                          <div className="box-tracking">
+                            <p><strong>Created:</strong> {box.createdAt}</p>
+                            <p><strong>Last Accessed:</strong> {box.lastAccessed}</p>
+                            <p><strong>Access Count:</strong> {box.accessCount}</p>
+                          </div>
+                        </div>
+                        <div className="box-actions">
+                          <div className="document-controls">
+                            <button 
+                              className="btn-add-doc"
+                              onClick={() => handleAddDocument(box.id)}
+                              disabled={box.currentDocuments >= box.capacity}
+                            >
+                              + Add Doc
+                            </button>
+                            <button 
+                              className="btn-remove-doc"
+                              onClick={() => handleRemoveDocument(box.id)}
+                              disabled={box.currentDocuments <= 0}
+                            >
+                              - Remove Doc
+                            </button>
+                          </div>
+                          <select
+                            value={box.status}
+                            onChange={(e) => handleUpdateBoxStatus(box.id, e.target.value)}
+                            className="status-select"
+                          >
+                            <option value="Available">Available</option>
+                            <option value="In Use">In Use</option>
+                            <option value="Full">Full</option>
+                            <option value="Maintenance">Maintenance</option>
+                          </select>
+                          <button 
+                            className="btn-track"
+                            onClick={() => handleTrackBox(box)}
+                          >
+                            Track
+                          </button>
+                          <button 
+                            className="btn-edit"
+                            onClick={() => handleEditBox(box)}
+                          >
+                            Edit
+                          </button>
+                          <button 
+                            className="btn-delete"
+                            onClick={() => handleDeleteBox(box.id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                        <div className="box-history">
+                          <h5>Recent Activity</h5>
+                          <div className="history-list">
+                            {box.trackingHistory.slice(-3).map((entry, index) => (
+                              <div key={index} className="history-item">
+                                <span className="history-date">{entry.date}</span>
+                                <span className="history-action">{entry.action}</span>
+                                <span className="history-user">{entry.user}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Document Tracking Graph Section */}
         <div className="document-tracking-section">
           <div className="tracking-header">
@@ -688,6 +1404,261 @@ const Dashboard = () => {
         onClose={handleCloseAddBoxForm}
         onSubmit={handleSubmitBox}
       />
+
+      {/* Box Limit Configuration Modal */}
+      {showBoxLimitForm && (
+        <div className="box-limit-modal-overlay">
+          <div className="box-limit-modal">
+            <div className="box-limit-modal-header">
+              <div className="box-limit-modal-title">
+                <FaWarehouse className="box-limit-modal-icon" />
+                <h2>Configure Box Limits</h2>
+              </div>
+              <button 
+                className="box-limit-modal-close"
+                onClick={handleCloseBoxLimitForm}
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmitBoxLimit} className="box-limit-form">
+              <div className="box-limit-form-content">
+                
+                {/* Center Selection */}
+                <div className="box-limit-form-group">
+                  <label className="box-limit-form-label">
+                    Storage Center <span className="required">*</span>
+                  </label>
+                  <select
+                    className="box-limit-form-select"
+                    value={boxLimitForm.center}
+                    onChange={(e) => handleBoxLimitInputChange('center', e.target.value)}
+                  >
+                    <option value="">Select Storage Center</option>
+                    <option value="CA">CA Storage Center</option>
+                    <option value="AR">Aramex Storage Center</option>
+                    <option value="VL">Villa Storage Center</option>
+                  </select>
+                </div>
+
+                {/* Max Boxes */}
+                <div className="box-limit-form-group">
+                  <label className="box-limit-form-label">
+                    Maximum Box Number <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    className="box-limit-form-input"
+                    value={boxLimitForm.maxBoxes}
+                    onChange={(e) => handleBoxLimitInputChange('maxBoxes', e.target.value)}
+                    placeholder="Enter maximum box number (e.g., 1000)"
+                    min="1"
+                    max="10000"
+                  />
+                </div>
+
+                {/* Description */}
+                <div className="box-limit-form-group">
+                  <label className="box-limit-form-label">
+                    Description <span className="required">*</span>
+                  </label>
+                  <textarea
+                    className="box-limit-form-textarea"
+                    value={boxLimitForm.description}
+                    onChange={(e) => handleBoxLimitInputChange('description', e.target.value)}
+                    placeholder="Enter description for this storage center..."
+                    rows="3"
+                  />
+                </div>
+
+              </div>
+
+              <div className="box-limit-form-actions">
+                <button 
+                  type="button"
+                  className="box-limit-btn box-limit-btn-cancel"
+                  onClick={handleCloseBoxLimitForm}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  className="box-limit-btn box-limit-btn-submit"
+                >
+                  <FaSave />
+                  Save Configuration
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Box Tracking Modal */}
+      {showTrackingModal && selectedBoxForTracking && (
+        <div className="tracking-modal-overlay">
+          <div className="tracking-modal">
+            <div className="tracking-modal-header">
+              <div className="tracking-modal-title">
+                <FaTruck className="tracking-modal-icon" />
+                <h2>Box Tracking: {selectedBoxForTracking.name}</h2>
+              </div>
+              <button 
+                className="tracking-modal-close"
+                onClick={handleCloseTrackingModal}
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="tracking-modal-content">
+              {/* Box Overview */}
+              <div className="tracking-section">
+                <h3>Box Overview</h3>
+                <div className="tracking-overview">
+                  <div className="overview-item">
+                    <span className="overview-label">Box ID:</span>
+                    <span className="overview-value">#{selectedBoxForTracking.id}</span>
+                  </div>
+                  <div className="overview-item">
+                    <span className="overview-label">Size:</span>
+                    <span className="overview-value">{selectedBoxForTracking.size}</span>
+                  </div>
+                  <div className="overview-item">
+                    <span className="overview-label">Status:</span>
+                    <span className={`overview-value status-${selectedBoxForTracking.status.toLowerCase().replace(' ', '-')}`}>
+                      {selectedBoxForTracking.status}
+                    </span>
+                  </div>
+                  <div className="overview-item">
+                    <span className="overview-label">Capacity:</span>
+                    <span className="overview-value">{selectedBoxForTracking.currentDocuments}/{selectedBoxForTracking.capacity} documents</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Location Tracking */}
+              <div className="tracking-section">
+                <h3>Location Tracking</h3>
+                <div className="location-tracking">
+                  <div className="location-current">
+                    <h4>Current Location</h4>
+                    <div className="location-info">
+                      <FaWarehouse className="location-icon" />
+                      <span className="location-name">{selectedBoxForTracking.currentLocation}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="location-destination">
+                    <h4>Destination</h4>
+                    <div className="destination-controls">
+                      <select
+                        value={selectedBoxForTracking.destinationLocation}
+                        onChange={(e) => handleUpdateDestination(selectedBoxForTracking.id, e.target.value)}
+                        className="destination-select"
+                      >
+                        {boxManagementData.locations.map(location => (
+                          <option key={location} value={location}>{location}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Documents */}
+              <div className="tracking-section">
+                <h3>Documents ({selectedBoxForTracking.documents?.length || 0})</h3>
+                <div className="documents-list">
+                  {selectedBoxForTracking.documents && selectedBoxForTracking.documents.length > 0 ? (
+                    selectedBoxForTracking.documents.map(doc => (
+                      <div key={doc.id} className="document-item">
+                        <div className="document-info">
+                          <FaFileAlt className="document-icon" />
+                          <div className="document-details">
+                            <span className="document-name">{doc.name}</span>
+                            <span className="document-type">{doc.type}</span>
+                          </div>
+                        </div>
+                        <div className="document-meta">
+                          <span className="document-date">Added: {doc.addedDate}</span>
+                          <span className="document-user">By: {doc.addedBy}</span>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="no-documents">No documents in this box</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Location History */}
+              <div className="tracking-section">
+                <h3>Location History</h3>
+                <div className="location-history">
+                  {selectedBoxForTracking.locationHistory && selectedBoxForTracking.locationHistory.length > 0 ? (
+                    selectedBoxForTracking.locationHistory.map((entry, index) => (
+                      <div key={index} className="location-history-item">
+                        <div className="history-timeline">
+                          <div className="timeline-dot"></div>
+                          {index < selectedBoxForTracking.locationHistory.length - 1 && <div className="timeline-line"></div>}
+                        </div>
+                        <div className="history-content">
+                          <div className="history-location">{entry.location}</div>
+                          <div className="history-action">{entry.action}</div>
+                          <div className="history-meta">
+                            <span className="history-date">{entry.date}</span>
+                            <span className="history-user">{entry.user}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="no-history">No location history available</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Activity Timeline */}
+              <div className="tracking-section">
+                <h3>Activity Timeline</h3>
+                <div className="activity-timeline">
+                  {selectedBoxForTracking.trackingHistory && selectedBoxForTracking.trackingHistory.length > 0 ? (
+                    selectedBoxForTracking.trackingHistory.map((entry, index) => (
+                      <div key={index} className="activity-item">
+                        <div className="activity-timeline">
+                          <div className="timeline-dot activity"></div>
+                          {index < selectedBoxForTracking.trackingHistory.length - 1 && <div className="timeline-line"></div>}
+                        </div>
+                        <div className="activity-content">
+                          <div className="activity-action">{entry.action}</div>
+                          <div className="activity-details">{entry.details}</div>
+                          <div className="activity-meta">
+                            <span className="activity-date">{entry.date}</span>
+                            <span className="activity-user">{entry.user}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="no-activity">No activity history available</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="tracking-modal-footer">
+              <button 
+                className="tracking-btn tracking-btn-close"
+                onClick={handleCloseTrackingModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
